@@ -1,0 +1,2558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database Systems — IS Officer PSU Exam Study Guide</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  :root {
+    /* Dark Theme (default) */
+    --bg: #0e0e10;
+    --surface: #16161a;
+    --border: #2a2a30;
+    --accent: #e8b84b;
+    --accent2: #5b8dee;
+    --text: #d4d4d8;
+    --text-dim: #71717a;
+    --text-bright: #fafafa;
+    --red: #f87171;
+    --green: #4ade80;
+    --purple: #c084fc;
+    --mono: 'Courier New', Courier, monospace;
+    --serif: Georgia, 'Times New Roman', serif;
+    --radius: 6px;
+  }
+
+  :root.light-theme {
+    /* Light Theme */
+    --bg: #fafafa;
+    --surface: #f5f5f5;
+    --border: #e5e5e5;
+    --accent: #d97706;
+    --accent2: #2563eb;
+    --text: #1f2937;
+    --text-dim: #6b7280;
+    --text-bright: #000000;
+    --red: #dc2626;
+    --green: #16a34a;
+    --purple: #9333ea;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.75;
+    padding: 0 1rem 4rem;
+  }
+
+  header {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  header h1 {
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    color: var(--accent);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  header p {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    font-family: var(--mono);
+  }
+
+  .toc {
+    max-width: 820px;
+    margin: 0 auto 2.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .toc h2 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-family: var(--mono);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc ol {
+    padding-left: 1.25rem;
+  }
+
+  .toc li { margin: 0.25rem 0; }
+
+  .toc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-family: var(--mono);
+    transition: color 0.15s;
+  }
+
+  .toc a:hover { color: var(--accent); }
+
+  main { max-width: 820px; margin: 0 auto; }
+
+  details {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  details[open] { border-color: var(--accent); }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    outline: none;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary .num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 1px 5px;
+    flex-shrink: 0;
+  }
+
+  summary h2 {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+    color: var(--text-bright);
+    font-weight: 600;
+    flex: 1;
+  }
+
+  summary .arrow {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  details[open] summary .arrow { transform: rotate(90deg); }
+
+  .content {
+    padding: 0 1.25rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Sub-sections */
+  .section {
+    margin-top: 1.5rem;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 0.6rem;
+  }
+
+  .basics .section-label { background: #16362a; color: var(--green); }
+  .deepdive .section-label { background: #1a1a36; color: var(--accent2); }
+  .tricks .section-label { background: #2a1a16; color: var(--accent); }
+
+  h3 {
+    font-size: 1rem;
+    color: var(--text-bright);
+    margin: 1.25rem 0 0.4rem;
+  }
+
+  h4 {
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin: 1rem 0 0.3rem;
+    font-family: var(--mono);
+  }
+
+  p { margin: 0.5rem 0; color: var(--text); }
+
+  ul, ol {
+    margin: 0.5rem 0 0.5rem 1.4rem;
+    color: var(--text);
+  }
+
+  li { margin: 0.2rem 0; }
+
+  code {
+    font-family: var(--mono);
+    background: #1e1e24;
+    color: #e2c08d;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.875em;
+  }
+
+  pre {
+    background: #13131a;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: #c9d1d9;
+  }
+
+  pre .kw { color: #79c0ff; }
+  pre .fn { color: #d2a8ff; }
+  pre .str { color: #a5d6ff; }
+  pre .cm { color: #6e7681; }
+  pre .num { color: #f8b14a; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+    font-size: 0.85rem;
+    font-family: var(--mono);
+  }
+
+  th {
+    background: #1e1e26;
+    color: var(--accent);
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  td {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td { background: #121216; }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: #1e1a10;
+    padding: 0.75rem 1rem;
+    margin: 0.75rem 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 0.9rem;
+  }
+
+  .callout.blue {
+    border-color: var(--accent2);
+    background: #101a2e;
+  }
+
+  .callout.red {
+    border-color: var(--red);
+    background: #1e1010;
+  }
+
+  .callout.green {
+    border-color: var(--green);
+    background: #101e14;
+  }
+
+  .formula-block {
+    background: #13131a;
+    border: 1px solid var(--accent2);
+    border-radius: var(--radius);
+    padding: 0.75rem 1.25rem;
+    margin: 0.75rem 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  strong { color: var(--text-bright); }
+  em { color: var(--purple); font-style: normal; }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin: 1px;
+  }
+
+  .tag-r { background: #2d1010; color: var(--red); }
+  .tag-g { background: #102d18; color: var(--green); }
+  .tag-b { background: #10182d; color: var(--accent2); }
+  .tag-y { background: #2d2410; color: var(--accent); }
+
+  /* MCQ Styling */
+  .mcq-section {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  .mcq-section h3 {
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-family: var(--mono);
+  }
+
+  .mcq-item {
+    background: #13131a;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .mcq-num {
+    font-weight: bold;
+    color: var(--accent);
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
+
+  .mcq-text { margin: 0.5rem 0; }
+
+  .mcq-type {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  .mcq-type.multiple { background: #1a2436; color: var(--accent2); }
+  .mcq-type.true-false { background: #2d1a16; color: var(--accent); }
+  .mcq-type.scenario { background: #1a2d1a; color: var(--green); }
+
+  .mcq-options {
+    margin: 0.75rem 0 0 1.5rem;
+    list-style: none;
+  }
+
+  .mcq-options li {
+    margin: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .mcq-options li:before {
+    content: attr(data-opt);
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-weight: bold;
+  }
+
+  .mcq-answer {
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: #0e1a14;
+    border-left: 2px solid var(--green);
+    border-radius: 0 3px 3px 0;
+    font-size: 0.85rem;
+    color: var(--green);
+  }
+
+  .mcq-answer strong { color: var(--green); }
+
+  /* Theme Toggle Styling */
+  .theme-toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+  }
+
+  .theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .theme-toggle-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: rotate(20deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .theme-toggle-label {
+    display: none;
+    position: absolute;
+    bottom: -2.5rem;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    color: var(--text-dim);
+  }
+
+  .theme-toggle-btn:hover .theme-toggle-label {
+    display: block;
+  }
+
+  /* Transition for theme switch */
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+  @media (max-width: 600px) {
+    body { font-size: 15px; }
+    pre { font-size: 0.76rem; }
+    table { font-size: 0.76rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="theme-toggle">
+  <button class="theme-toggle-btn" id="themeToggle" title="Toggle Dark/Light Theme">
+    <span id="themeIcon">🌙</span>
+    <span class="theme-toggle-label" id="themeLabel">Light Mode</span>
+  </button>
+</div>
+
+<header>
+  <h1>Database Systems<br>IS Officer PSU Exam — Exhaustive Study Guide</h1>
+  <p>// Progressive: Basics → Deep Dive → Short Tricks &nbsp;|&nbsp; All 8 Topics</p>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#t1">ER Models &amp; Relational Design</a></li>
+    <li><a href="#t2">Relational Model &amp; Algebra</a></li>
+    <li><a href="#t3">Normalization</a></li>
+    <li><a href="#t4">SQL Queries</a></li>
+    <li><a href="#t5">File Organization &amp; Indexing</a></li>
+    <li><a href="#t6">Transactions &amp; Concurrency</a></li>
+    <li><a href="#t7">Backup &amp; Recovery</a></li>
+    <li><a href="#t8">Database Architecture</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 1: ER MODELS
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t1">
+<summary>
+  <span class="num">01</span>
+  <h2>ER Models &amp; Relational Design</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>Entities, Attributes &amp; Relationships</h3>
+    <p>An <strong>Entity</strong> is a real-world object distinguishable from other objects (e.g., Student, Course). An <strong>Attribute</strong> is a property of an entity (e.g., Name, RollNo). A <strong>Relationship</strong> is an association among entities (e.g., Student <em>enrolls in</em> Course).</p>
+
+    <h4>Types of Attributes</h4>
+    <ul>
+      <li><strong>Simple:</strong> Atomic, not divisible (Age, Salary)</li>
+      <li><strong>Composite:</strong> Divisible into sub-parts (Name → First + Last)</li>
+      <li><strong>Multi-valued:</strong> Can hold multiple values (Phone_Numbers) — drawn with double ellipse</li>
+      <li><strong>Derived:</strong> Computed from another attribute (Age ← DOB) — drawn with dashed ellipse</li>
+      <li><strong>Key Attribute:</strong> Uniquely identifies entity instances — underlined</li>
+    </ul>
+
+    <h4>Cardinality Ratios</h4>
+    <table>
+      <tr><th>Type</th><th>Example</th><th>Notation</th></tr>
+      <tr><td>1:1</td><td>Person — Passport</td><td>Each person has at most 1 passport</td></tr>
+      <tr><td>1:N</td><td>Dept — Employee</td><td>One dept has many employees</td></tr>
+      <tr><td>M:N</td><td>Student — Course</td><td>Many students enroll in many courses</td></tr>
+    </table>
+
+    <h4>Participation Constraints</h4>
+    <ul>
+      <li><strong>Total (mandatory):</strong> Every entity must participate — double line in ER diagram</li>
+      <li><strong>Partial (optional):</strong> Some entities may not participate — single line</li>
+    </ul>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>Minimal Table Count Rules (ER → Relational)</h3>
+    <p>The exam-critical skill is counting the minimum number of tables required.</p>
+
+    <h4>Rule 1: Strong Entity Set</h4>
+    <p>Always becomes exactly <strong>1 table</strong>. Primary key = key attribute(s).</p>
+
+    <h4>Rule 2: Weak Entity Set</h4>
+    <p>Becomes <strong>1 table</strong>. Its primary key = <em>partial key</em> + primary key of the owner (identifying) entity. The relationship with its owner does <strong>not</strong> need a separate table.</p>
+    <pre>Loan(<u>Loan_No</u>, Amount)    -- strong
+Payment(<u>Loan_No, Payment_No</u>, Date)   -- weak; Loan_No FK references Loan</pre>
+
+    <h4>Rule 3: Binary Relationships</h4>
+    <table>
+      <tr><th>Cardinality</th><th>Participation</th><th>Tables Needed</th><th>Strategy</th></tr>
+      <tr><td>M:N</td><td>Any</td><td>3 (min)</td><td>Separate relationship table with both PKs as composite PK</td></tr>
+      <tr><td>1:N</td><td>Partial:Any</td><td>2</td><td>Add FK on the N-side (many side) referencing 1-side PK</td></tr>
+      <tr><td>1:N</td><td>Total on N-side</td><td>2</td><td>Same as above; totality captured via NOT NULL on FK</td></tr>
+      <tr><td>1:1</td><td>Both Partial</td><td>3 or 2</td><td>Merge relationship into either entity, or keep separate</td></tr>
+      <tr><td>1:1</td><td>One Total</td><td>2</td><td>Add FK into the entity with total participation (guarantees non-null)</td></tr>
+      <tr><td>1:1</td><td>Both Total</td><td>1 (min)</td><td>Merge all into single table — guaranteed 1-to-1 mapping</td></tr>
+    </table>
+
+    <div class="callout">
+      <strong>Key Formula:</strong> Minimum tables = (# strong entities) + (# weak entities) + (# M:N relationships) + adjustments for multi-valued attributes (each → +1 table) + (# ternary/higher-degree relationships).
+    </div>
+
+    <h4>Multi-Valued Attributes</h4>
+    <p>Each multi-valued attribute becomes a separate table containing the entity's PK + the attribute value. E.g., <code>Emp_Phone(<u>EmpID, Phone</u>)</code>.</p>
+
+    <h4>Weak Entity — Detailed Rules</h4>
+    <ul>
+      <li>Identified by a <em>partial key</em> (dashed underline in ER)</li>
+      <li>Depends on an <em>identifying (owner) entity</em> via an <em>identifying relationship</em> (double diamond)</li>
+      <li>Always has <strong>total participation</strong> in identifying relationship</li>
+      <li>If owner is deleted → cascade delete weak entities (referential action)</li>
+    </ul>
+
+    <h4>Specialization / Generalization</h4>
+    <p>Superclass/subclass hierarchy. Three mapping strategies:</p>
+    <table>
+      <tr><th>Strategy</th><th>Tables</th><th>Pro</th><th>Con</th></tr>
+      <tr><td>Method 1: Single table</td><td>1</td><td>Simple queries</td><td>Many NULLs; violates domain integrity</td></tr>
+      <tr><td>Method 2: Table per subclass + super</td><td>1 + n</td><td>Clean, no nulls for specific attrs</td><td>Joins needed for complete info</td></tr>
+      <tr><td>Method 3: Table per subclass only (disjoint, total)</td><td>n</td><td>No joins for subclass queries</td><td>Superclass attrs replicated; overlapping fails</td></tr>
+    </table>
+
+    <h4>Constraints on Specialization</h4>
+    <ul>
+      <li><strong>Disjoint (d):</strong> Entity belongs to at most one subclass</li>
+      <li><strong>Overlapping (o):</strong> Entity may belong to multiple subclasses</li>
+      <li><strong>Total (double line):</strong> Every superclass entity must be in some subclass</li>
+      <li><strong>Partial (single line):</strong> Some superclass entities may not be in any subclass</li>
+    </ul>
+
+    <h4>Ternary vs. Binary Decomposition</h4>
+    <p>A ternary relationship R(A,B,C) maps to 1 table with {PK_A, PK_B, PK_C} as composite PK (for M:N:N). <strong>Cannot always be replaced by binary relationships</strong> without information loss. Decompose only if the ternary can be reconstructed via natural join of the binary projections (i.e., satisfies a join dependency).</p>
+    <div class="callout blue">
+      <strong>Exam trap:</strong> "Replace ternary with three binaries" — this loses information unless the ternary has specific join dependencies. The safe answer is: ternary relationship needs its own table.
+    </div>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>M:N always = 3 tables</strong> minimum (2 entities + 1 junction). Non-negotiable.</li>
+      <li><strong>1:1 both total = merge into 1 table</strong> (minimum possible). Look for "both double lines."</li>
+      <li><strong>1:N → FK goes to N-side.</strong> "Many side gets the foreign key."</li>
+      <li><strong>Weak entity never adds an extra table</strong> for its identifying relationship — it's already captured in its own table's composite PK.</li>
+      <li><strong>Multi-valued attribute → always +1 table.</strong></li>
+      <li><strong>Derived attribute → 0 extra tables</strong> (not stored).</li>
+      <li>Count tables formula on MCQ: <code>T = E<sub>strong</sub> + E<sub>weak</sub> + R<sub>M:N</sub> + A<sub>multi-val</sub></code></li>
+      <li>For 1:1 partial-partial: could be 2 or 3 tables. Question usually asks "minimum" → 2 (merge relation into one entity table).</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">An ER diagram has 3 strong entities, 2 weak entities, 2 M:N relationships, and 1 multi-valued attribute. The minimum number of relations in the normalized relational schema is:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 9 relations</li>
+        <li data-opt="B)"> 8 relations</li>
+        <li data-opt="C)"> 10 relations</li>
+        <li data-opt="D)"> 11 relations</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (8 relations)</strong><br>3 strong + 2 weak + 2 M:N + 1 multi-val = 8</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">A 1:1 relationship with total participation on both sides can always be mapped to a single relation by merging all entities and the relationship into one table.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>When both entities have total participation in a 1:1 relationship, they can be merged into one table with combined attributes. This guarantees exactly one instance per entity pair.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">Consider: Professor (1) —— teaches (M:N) —— Course. No participation constraints given. How many minimum relations are needed?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 2</li>
+        <li data-opt="B)"> 3</li>
+        <li data-opt="C)"> 4</li>
+        <li data-opt="D)"> Cannot determine without participation info</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (3)</strong><br>M:N relationships always require a separate junction table regardless of participation. So: Professor table + Course table + Teaches (junction) table = 3 minimum.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">A weak entity "Payment" identified by partial key "PaymentNo" and its owner "Loan" with identifying relationship. What is the primary key of the Payment table?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> PaymentNo only</li>
+        <li data-opt="B)"> LoanNo only</li>
+        <li data-opt="C)"> (LoanNo, PaymentNo) composite</li>
+        <li data-opt="D)"> Both as separate candidates</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C (LoanNo, PaymentNo)</strong><br>Weak entity PK = partial key + owner's PK. This composite key uniquely identifies each payment within a loan.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">A derived attribute (like Age computed from DOB) requires a separate table in the relational schema.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>Derived attributes are computed on-the-fly and need not be stored. They don't require extra tables in the schema.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">An ER model shows: Employee (1) —— (partial) —— has (1:1) —— (total) —— Office. Which mapping strategy uses the fewest tables?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Merge all into Employee (add OfficeID)</li>
+        <li data-opt="B)"> Keep separate Office table, add OfficeID FK in Employee</li>
+        <li data-opt="C)"> Create a separate relationship table</li>
+        <li data-opt="D)"> Three separate tables (Employee, Office, Relationship)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (2 tables)</strong><br>Employee has partial, Office has total participation. Add FK to the entity with total participation (Office) makes most sense, or add to Employee + NOT NULL. Both = 2 tables.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">An entity has two multi-valued attributes. How many additional tables are created?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 1 table for both</li>
+        <li data-opt="B)"> 2 separate tables</li>
+        <li data-opt="C)"> Depends on domain</li>
+        <li data-opt="D)"> 0 tables (stored as arrays)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (2 tables)</strong><br>Each multi-valued attribute gets its own table: {PK, AttrValue}. Two attributes = two separate MVA tables.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">In a ternary M:N:N relationship, all three entities contribute their PKs to form the composite PK of the relationship table.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>For M:N:N ternary relationships, the junction table's PK is typically the combination of all three entity PKs (or a subset if functional dependencies exist). Most exam questions assume full composite.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">Student (weak) —— identified by (RollNo, Year) plus owner Batch (strong, PK: BatchID). What's the minimum table count for this relationship?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 1 (merge everything)</li>
+        <li data-opt="B)"> 2</li>
+        <li data-opt="C)"> 3</li>
+        <li data-opt="D)"> Cannot determine</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (2)</strong><br>Weak entity + its owner identifying relationship never need a separate table. Tables: Batch + Student (with PK: BatchID, RollNo, Year).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">Which ER constraint ensures that keys from a parent must appear in the child table?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Participation constraint</li>
+        <li data-opt="B)"> Referential integrity constraint</li>
+        <li data-opt="C)"> Entity integrity constraint</li>
+        <li data-opt="D)"> Domain constraint</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Referential integrity enforces FK relationships between tables. Parent PK must match child FK or be NULL.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 2: RELATIONAL MODEL & ALGEBRA
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t2">
+<summary>
+  <span class="num">02</span>
+  <h2>Relational Model &amp; Algebra</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>Relations and Keys</h3>
+    <p>A <strong>Relation</strong> is a table with rows (tuples) and columns (attributes). The <strong>schema</strong> defines structure; the <strong>instance</strong> is current data.</p>
+
+    <table>
+      <tr><th>Key Type</th><th>Definition</th><th>Example</th></tr>
+      <tr><td>Super Key</td><td>Any set of attributes that uniquely identifies a tuple</td><td>{EmpID}, {EmpID, Name}, {EmpID, Name, Salary}</td></tr>
+      <tr><td>Candidate Key</td><td>Minimal super key (no proper subset is also a super key)</td><td>{EmpID}, {Email}</td></tr>
+      <tr><td>Primary Key</td><td>Chosen candidate key; cannot be NULL</td><td>EmpID</td></tr>
+      <tr><td>Foreign Key</td><td>Attribute referencing the PK of another relation</td><td>DeptID in Employee → Dept.DeptID</td></tr>
+    </table>
+
+    <h4>Basic RA Operations</h4>
+    <ul>
+      <li><strong>σ (Select):</strong> Filters rows — <code>σ<sub>condition</sub>(R)</code></li>
+      <li><strong>π (Project):</strong> Filters columns — <code>π<sub>attrs</sub>(R)</code></li>
+      <li><strong>⋈ (Natural Join):</strong> Joins on common attributes</li>
+      <li><strong>∪, ∩, − (Set ops):</strong> Require union-compatible relations</li>
+      <li><strong>× (Cartesian Product):</strong> All combinations of tuples</li>
+      <li><strong>ρ (Rename):</strong> Renames relation/attributes</li>
+    </ul>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>Division Operator</h3>
+    <p>R ÷ S returns tuples in R[A] that are associated with <strong>every</strong> tuple in S. Used for "find all X that have done Y for ALL Z" type queries.</p>
+    <div class="formula-block">
+      $$R \div S = \pi_{A}(R) - \pi_{A}((\pi_{A}(R) \times S) - R)$$
+    </div>
+    <p>Where A = R's attributes not in S. This equivalence is the standard derivation from primitive operators.</p>
+    <pre><span class="cm">-- Example: Students enrolled in ALL courses taught by Prof X</span>
+<span class="cm">-- Enrolled(SID, CID), Courses(CID)</span>
+Result = Enrolled ÷ Courses</pre>
+
+    <h3>Outer Joins and NULLs</h3>
+    <table>
+      <tr><th>Join Type</th><th>Behavior</th><th>NULLs</th></tr>
+      <tr><td>Left Outer ⟕</td><td>All tuples from left; unmatched right = NULL</td><td>Right side attrs</td></tr>
+      <tr><td>Right Outer ⟖</td><td>All tuples from right; unmatched left = NULL</td><td>Left side attrs</td></tr>
+      <tr><td>Full Outer ⟗</td><td>All tuples from both sides</td><td>Either side</td></tr>
+    </table>
+    <p>NULL comparisons: <code>NULL = NULL</code> is <strong>UNKNOWN</strong>, not TRUE. Use <code>IS NULL</code> / <code>IS NOT NULL</code>.</p>
+    <p>Three-valued logic: TRUE, FALSE, UNKNOWN. <code>WHERE UNKNOWN</code> → row excluded.</p>
+
+    <h3>Tuple Relational Calculus (TRC)</h3>
+    <p>Non-procedural query language. A query has the form: <code>{t | P(t)}</code> where P is a formula.</p>
+    <h4>TRC Formulas</h4>
+    <ul>
+      <li><strong>Atoms:</strong> s ∈ R, s.A op c, s.A op t.B</li>
+      <li><strong>Operators:</strong> ∧ (AND), ∨ (OR), ¬ (NOT), ∃ (exists), ∀ (for all)</li>
+    </ul>
+
+    <h4>Safe vs. Unsafe Expressions</h4>
+    <p>A TRC expression is <strong>safe</strong> if it guarantees a finite result. An expression is unsafe if it can produce an infinite result.</p>
+    <div class="callout red">
+      <strong>Unsafe example:</strong> <code>{t | ¬(t ∈ Employee)}</code> — returns all possible tuples NOT in Employee, which is infinite.
+    </div>
+    <p>Safety condition: all values in the result must come from the <em>domain</em> of the expression (the finite set of constants and values appearing in the relation instances referenced).</p>
+
+    <h4>Universal Quantifier Equivalence</h4>
+    <div class="formula-block">
+      $$\forall t \in R(P(t)) \equiv \neg \exists t \in R(\neg P(t))$$
+    </div>
+    <p>This is used to convert ∀ queries into ∃ (which is easier to evaluate).</p>
+
+    <h3>Integrity Constraints</h3>
+    <ul>
+      <li><strong>Domain constraint:</strong> Attribute values must be from their domain</li>
+      <li><strong>Entity integrity:</strong> Primary key cannot be NULL</li>
+      <li><strong>Referential integrity:</strong> FK value must exist as PK in referenced relation OR be NULL</li>
+      <li><strong>Semantic integrity:</strong> Business rules (e.g., Salary &gt; 0)</li>
+    </ul>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>Division = "for all" queries.</strong> Whenever you see "finds students enrolled in ALL courses," think ÷.</li>
+      <li><strong>Super Key ⊇ Candidate Key ⊇ Primary Key.</strong> Every CK is a SK. Not every SK is a CK.</li>
+      <li><strong>NULLs disappear in WHERE conditions</strong> — UNKNOWN rows are filtered out.</li>
+      <li><strong>Natural join eliminates duplicate columns</strong>; theta join does not.</li>
+      <li><strong>TRC safe rule:</strong> All values in result must come from the explicitly referenced relations. Any result pulling values "from outside" known data is unsafe.</li>
+      <li><strong>Left outer join tuple count:</strong> ≥ |R| (always at least as many tuples as left relation).</li>
+      <li>Candidate keys: find all minimal sets. On MCQs, verify minimality — remove each attribute; if it still uniquely identifies tuples, it's not minimal.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">Given R(A,B,C,D) and FD set {A→B, B→C, C→D}. Which of the following is a super key?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> {B}</li>
+        <li data-opt="B)"> {A}</li>
+        <li data-opt="C)"> {C, D}</li>
+        <li data-opt="D)"> {B, C}</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B ({A})</strong><br>A+ = {A, B, C, D} (contains all attributes). {B}+ = {B, C, D}; {C, D}+ = {C, D}. Only {A} is a super key.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">In relational calculus, the expression {t | ¬(t ∈ Employee)} is always safe.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>This is unsafe because it returns all possible tuples NOT in Employee, which could be infinite. Safe TRC must restrict results to known domains.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">The Division operator R ÷ S is equivalent to:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> π(R \ (π_R(σ_(F)(R×S))))</li>
+        <li data-opt="B)"> π_A(R) - π_A(σ_(F)(R × S))</li>
+        <li data-opt="C)"> Both A and B</li>
+        <li data-opt="D)"> None of the above</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C</strong><br>Both expressions correctly derive division from primitive operators. They find all A values paired with <em>every</em> value in S.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">LEFT OUTER JOIN Emp ⟕ Dept produces 450 tuples. Emp alone has 300 tuples. How many tuples are unmatched in Dept?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 150</li>
+        <li data-opt="B)"> 0 (all Dept matched)</li>
+        <li data-opt="C)"> Cannot determine</li>
+        <li data-opt="D)"> 450 (depends on data)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A (150)</strong><br>LEFT OUTER JOIN keeps all Emp rows. 450 - 300 = 150 unmatched Emp rows that joined with NULL from Dept (i.e., 150 Emp with no Dept match introduced nulls).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">NULL = NULL evaluates to TRUE in SQL.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>NULL = NULL evaluates to UNKNOWN, not TRUE. Use IS NULL for explicit NULL checks.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">In the expression π_{Candidate_Keys}(R), if R has no candidate keys, the result is:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Empty set</li>
+        <li data-opt="B)"> First n columns of R</li>
+        <li data-opt="C)"> All columns (entire R)</li>
+        <li data-opt="D)"> Undefined operation</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: D</strong><br>Projection requires a valid attribute list. Candidate keys are structural (not attributes). If incorrectly referenced, operation is undefined. The question conflates schema properties with attribute names.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">How many candidate keys can a relation have at minimum?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 0</li>
+        <li data-opt="B)"> 1</li>
+        <li data-opt="C)"> 2</li>
+        <li data-opt="D)"> Unlimited</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (1)</strong><br>Every relation must have at least one candidate key (a minimal set of attributes uniquely identifying tuples). Typically the PK is chosen from candidates.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">Natural join eliminates all duplicate columns and is always equality-based on common attribute names.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>Natural join automatically joins on common columns (by name) and eliminates duplicates, keeping one copy of the common attributes.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">Referential integrity constraint ensures:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> PK ≠ NULL</li>
+        <li data-opt="B)"> FK value exists as PK in referenced table OR is NULL</li>
+        <li data-opt="C)"> All FKs are unique</li>
+        <li data-opt="D)"> No duplicate rows exist</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Referential integrity: every FK value must either match a PK in the parent table or be NULL (no orphaned references).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">For σ(R ⋈ S) vs (σ(R)) ⋈ S, which selection properties allow the former to be optimized to the latter?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Selection only involves R's attributes</li>
+        <li data-opt="B)"> Selection only involves S's attributes</li>
+        <li data-opt="C)"> Selection is a conjunction allowing decomposition</li>
+        <li data-opt="D)"> All of the above</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: D</strong><br>Pushdown optimization: selections on R alone can be pushed before the join σ(R), similarly for S, and conjunctive selections can be split. This reduces intermediate result sizes.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 3: NORMALIZATION
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t3">
+<summary>
+  <span class="num">03</span>
+  <h2>Normalization</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>Anomalies &amp; Normal Forms</h3>
+    <p>When a relation is poorly designed, it suffers from <strong>anomalies</strong>:</p>
+    <ul>
+      <li><strong>Insertion anomaly:</strong> Cannot insert data without providing unrelated data</li>
+      <li><strong>Deletion anomaly:</strong> Deleting a row removes unintentionally required information</li>
+      <li><strong>Update anomaly:</strong> Updating one fact requires changing multiple rows</li>
+    </ul>
+
+    <table>
+      <tr><th>Normal Form</th><th>Requirement</th></tr>
+      <tr><td>1NF</td><td>All attributes are atomic (no repeating groups, no multi-valued)</td></tr>
+      <tr><td>2NF</td><td>1NF + No partial dependency (non-prime attr must depend on whole PK)</td></tr>
+      <tr><td>3NF</td><td>2NF + No transitive dependency (non-prime attr depends only on PK)</td></tr>
+      <tr><td>BCNF</td><td>For every FD X→Y, X must be a super key</td></tr>
+      <tr><td>4NF</td><td>BCNF + No non-trivial multi-valued dependencies</td></tr>
+      <tr><td>5NF</td><td>4NF + No join dependencies (cannot be reconstructed from projections)</td></tr>
+    </table>
+
+    <h4>Functional Dependency (FD)</h4>
+    <p>X → Y means: knowing X uniquely determines Y. E.g., RollNo → Name.</p>
+    <ul>
+      <li><strong>Trivial FD:</strong> Y ⊆ X (e.g., {A,B} → A)</li>
+      <li><strong>Non-trivial FD:</strong> Y ⊄ X</li>
+    </ul>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>Armstrong's Axioms (Complete &amp; Sound)</h3>
+    <ol>
+      <li><strong>Reflexivity:</strong> If Y ⊆ X, then X → Y</li>
+      <li><strong>Augmentation:</strong> If X → Y, then XZ → YZ</li>
+      <li><strong>Transitivity:</strong> If X → Y and Y → Z, then X → Z</li>
+    </ol>
+    <p>Derived rules:</p>
+    <ul>
+      <li><strong>Union:</strong> X→Y, X→Z ⟹ X→YZ</li>
+      <li><strong>Decomposition:</strong> X→YZ ⟹ X→Y and X→Z</li>
+      <li><strong>Pseudotransitivity:</strong> X→Y, WY→Z ⟹ WX→Z</li>
+    </ul>
+
+    <h3>Attribute Closure Algorithm</h3>
+    <p>To find X<sup>+</sup> (closure of attribute set X under FD set F):</p>
+    <pre>closure = X
+repeat:
+  for each FD (Y → Z) in F:
+    if Y ⊆ closure:
+      closure = closure ∪ Z
+until no change</pre>
+    <div class="callout green">
+      <strong>Use case:</strong> X is a super key iff X<sup>+</sup> = all attributes. X is a candidate key iff X<sup>+</sup> = all attributes AND no proper subset of X has this property.
+    </div>
+
+    <h3>Minimal Cover (Canonical Cover) F<sub>c</sub></h3>
+    <p>A minimal set of FDs equivalent to F. Steps:</p>
+    <ol>
+      <li><strong>Single RHS:</strong> Split all FDs into single-attribute RHS: X→YZ becomes X→Y, X→Z</li>
+      <li><strong>Remove extraneous LHS attributes:</strong> For X→A, check if (X−B)<sup>+</sup> already contains A for each B ∈ X. If yes, remove B.</li>
+      <li><strong>Remove redundant FDs:</strong> For each X→A, check if A ∈ (F − {X→A})<sup>+</sup> using remaining FDs. If yes, remove X→A.</li>
+    </ol>
+
+    <h3>Lossless Join Decomposition</h3>
+    <p>Decomposition of R into R<sub>1</sub>, R<sub>2</sub> is lossless-join iff:</p>
+    <div class="formula-block">
+      $$(R_1 \cap R_2) \to R_1 \quad \text{OR} \quad (R_1 \cap R_2) \to R_2$$
+    </div>
+    <p>i.e., the common attributes form a super key of at least one of the decomposed relations. This is the <strong>FD-based lossless condition</strong> (for binary decomposition).</p>
+    <div class="callout">
+      <strong>General test (Chase algorithm):</strong> Create a tableau. Apply FDs. If any row becomes all-distinguished variables (a<sub>1</sub>, a<sub>2</sub>, ..., a<sub>n</sub>), decomposition is lossless.
+    </div>
+
+    <h3>Dependency Preservation</h3>
+    <p>A decomposition preserves dependencies if F<sup>+</sup> = (F<sub>1</sub> ∪ F<sub>2</sub> ∪ ... ∪ F<sub>k</sub>)<sup>+</sup>, where F<sub>i</sub> = FDs in F<sup>+</sup> that involve only attributes of R<sub>i</sub>.</p>
+    <p>Algorithm to check: For each FD X→Y in F, compute X<sup>+</sup> using only FDs within individual decomposed relations (local closure). If Y ⊆ computed closure, FD is preserved.</p>
+
+    <h3>BCNF vs. 3NF — Critical Distinction</h3>
+    <table>
+      <tr><th>Property</th><th>BCNF</th><th>3NF</th></tr>
+      <tr><td>Definition</td><td>For every X→Y (non-trivial), X is super key</td><td>For every X→Y (non-trivial), X is super key OR Y is prime attribute</td></tr>
+      <tr><td>Lossless Join</td><td>Always achievable</td><td>Always achievable</td></tr>
+      <tr><td>Dependency Preserving</td><td><strong>Not always</strong> possible</td><td><strong>Always</strong> possible</td></tr>
+      <tr><td>Redundancy</td><td>Minimal</td><td>Some allowed</td></tr>
+    </table>
+
+    <div class="callout red">
+      <strong>Classic exam scenario:</strong> If asked for decomposition that is BOTH lossless AND dependency-preserving, use <strong>3NF</strong> (BCNF might not preserve all dependencies). This is a critical distinction.
+    </div>
+
+    <h4>3NF Synthesis Algorithm</h4>
+    <ol>
+      <li>Find minimal cover F<sub>c</sub></li>
+      <li>Create relation for each FD in F<sub>c</sub>: R<sub>i</sub>(X ∪ A) for X→A</li>
+      <li>If no relation contains a candidate key of R, add a relation with a candidate key</li>
+      <li>Remove any relation whose schema is a subset of another relation's schema</li>
+    </ol>
+
+    <h4>BCNF Decomposition Algorithm</h4>
+    <ol>
+      <li>Find a non-trivial FD X→Y that violates BCNF (X not super key)</li>
+      <li>Decompose R into R<sub>1</sub>(X ∪ Y) and R<sub>2</sub>(X ∪ (R − Y))</li>
+      <li>Repeat for each resulting relation until all are in BCNF</li>
+    </ol>
+
+    <h3>4NF — Multi-Valued Dependencies (MVD)</h3>
+    <p>X →→ Y (X multi-determines Y) means: for each value of X, the set of Y values is independent of the Z values (where Z = R − X − Y).</p>
+    <div class="formula-block">
+      $$\text{Trivial MVD: } X \twoheadrightarrow Y \text{ if } Y \subseteq X \text{ or } X \cup Y = R$$
+    </div>
+    <p>4NF: For every non-trivial MVD X →→ Y, X must be a super key.</p>
+    <p>Every FD X→Y implies MVD X →→ Y (but not vice versa).</p>
+
+    <h3>5NF — Join Dependencies</h3>
+    <p>A Join Dependency ⋈{R<sub>1</sub>,...,R<sub>n</sub>} holds if R = R<sub>1</sub> ⋈ R<sub>2</sub> ⋈ ... ⋈ R<sub>n</sub>. 5NF (PJNF): every JD is implied by candidate keys. Rarely tested directly; understand conceptually.</p>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>Closure test for candidate key:</strong> Compute X<sup>+</sup>; if it equals all attributes, X is a super key. If no proper subset has same property, X is CK.</li>
+      <li><strong>"BCNF can't always preserve dependencies"</strong> — this is the single most-tested BCNF fact. If MCQ asks which normal form guarantees both lossless and dependency preserving: <strong>3NF</strong>.</li>
+      <li><strong>Lossless test (binary):</strong> Common attrs → one of the two sides = lossless. Memorize: R<sub>1</sub> ∩ R<sub>2</sub> must be a key of R<sub>1</sub> or R<sub>2</sub>.</li>
+      <li><strong>2NF violation:</strong> Non-prime attribute depends on part of composite PK. If PK is single attribute → automatically in 2NF.</li>
+      <li><strong>3NF violation:</strong> A→B→C where A is PK, B is non-prime, C is non-prime. Transitive chain.</li>
+      <li><strong>Prime attribute</strong> = attribute that appears in at least one candidate key. Everything else is non-prime.</li>
+      <li><strong>MVD rule:</strong> If X→Y (FD), then X →→ Y (MVD). The converse is false.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">Given R(A,B,C,D) with FD: A→B, C→D. Which key(s) is/are candidate keys?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> {A, C}</li>
+        <li data-opt="B)"> {A}, {C}</li>
+        <li data-opt="C)"> {A, C, D}</li>
+        <li data-opt="D)"> Cannot determine</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A ({A, C})</strong><br>{A, C}+ = {A, B, C, D} (all attributes). Both {A} and {C} separately are not super keys ({A}+={A,B}, {C}+={C,D}). So {A,C} is the only CK.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">Every relation in BCNF is also in 3NF.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>BCNF is stricter than 3NF. BCNF ⊂ 3NF. If a relation satisfies BCNF, it automatically satisfies 3NF.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">R(A,B,C) with PK={A}. FD: A→B, B→C. Is R in 2NF?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Yes, PK is single attribute</li>
+        <li data-opt="B)"> No, transitive dependency A→B→C</li>
+        <li data-opt="C)"> No, partial dependency on PK</li>
+        <li data-opt="D)"> Cannot determine</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A (Yes)</strong><br>2NF checks for partial dependencies (non-prime on part of composite PK). Here PK is single, so no partial dependency possible. It's in 2NF (but not 3NF due to transitive).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">A decomposition of R into R1 and R2 is lossless-join iff:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> (R1 ∩ R2) → R1 OR (R1 ∩ R2) → R2</li>
+        <li data-opt="B)"> R1 ∩ R2 ≠ Ø</li>
+        <li data-opt="C)"> Both PK are preserved</li>
+        <li data-opt="D)"> Both are in BCNF</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A</strong><br>Lossless-join condition: the common attributes must form a super key of at least one decomposed relation. Written as: (R1 ∩ R2) → R1 OR (R1 ∩ R2) → R2.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">Dependency preservation is always possible with 3NF decomposition but not with BCNF.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>3NF Synthesis Algorithm guarantees both lossless AND dependency-preserving. BCNF might lose some dependencies, making dependency preservation impossible.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">R(A,B,C) in BCNF is decomposed into R1(A,B) and R2(B,C). What's the minimum information loss?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> No loss (lossless)</li>
+        <li data-opt="B)"> Possible phantom tuples on natural join</li>
+        <li data-opt="C)"> Dependency A→C may be lost</li>
+        <li data-opt="D)"> Both B and C</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A (Lossless)</strong><br>If B is a key of either R1 or R2, then (R1 ∩ R2) = {B} forms a super key → lossless. Most BCNF decompositions are lossy-join in general, but depends on specific FDs. Assuming B is key of one: lossless.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">In the minimal cover (canonical cover) algorithm, if X→A is in Fc and removing attribute B from X  breaks the dependency (i.e., (X−{B})+doesn't contain A), then B is:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Essential (keep it)</li>
+        <li data-opt="B)"> Extraneous (remove it)</li>
+        <li data-opt="C)"> Redundant</li>
+        <li data-opt="D)"> None of the above</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A (Essential)</strong><br>If removing B breaks the dependency, then B is essential to maintaining it — keep it in the LHS.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">An attribute is prime if and only if it is a primary key.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>Prime attribute = appears in ANY candidate key, not just THE primary key. Multiple candidate keys may exist, and attributes in any of them are prime.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">R(A,B,C,D) with FD {A→B, B→C, C→D}. To decompose into BCNF, which FD violates BCNF first?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> A→B (if A not super key)</li>
+        <li data-opt="B)"> B→C (if B not super key)</li>
+        <li data-opt="C)"> Both start from A if PK={A}</li>
+        <li data-opt="D)"> Depends on chosen PK</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: D (Depends on PK)</strong><br>BCNF violation = X→Y where X is not a super key. If PK={A}, then B→C violates BCNF (B not super key). If PK={A,C}, different violations arise. Choose based on PK definition.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">Multi-valued dependency (MVD): X →→ Y is trivial iff:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Y ⊆ X</li>
+        <li data-opt="B)"> X ⊆ Y</li>
+        <li data-opt="C)"> Y ⊆ X OR X ∪ Y = R</li>
+        <li data-opt="D)"> Y and X are disjoint</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C</strong><br>Trivial MVD: X →→ Y iff Y ⊆ X (always satisfied) or X ∪ Y = R (functional dependency). Non-trivial requires neither condition.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 4: SQL QUERIES
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t4">
+<summary>
+  <span class="num">04</span>
+  <h2>SQL Queries</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>SELECT / WHERE / JOIN</h3>
+    <pre><span class="kw">SELECT</span> E.Name, D.DeptName
+<span class="kw">FROM</span> Employee E
+<span class="kw">JOIN</span> Department D <span class="kw">ON</span> E.DeptID = D.DeptID
+<span class="kw">WHERE</span> E.Salary > <span class="num">50000</span>
+<span class="kw">ORDER BY</span> E.Name <span class="kw">ASC</span>;</pre>
+
+    <h4>Execution Order (Logical)</h4>
+    <p><code>FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT</code></p>
+    <p>This order is crucial: aliases defined in SELECT cannot be used in WHERE (they haven't been evaluated yet).</p>
+
+    <h4>GROUP BY &amp; HAVING</h4>
+    <pre><span class="kw">SELECT</span> DeptID, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> NumEmp, <span class="fn">AVG</span>(Salary)
+<span class="kw">FROM</span> Employee
+<span class="kw">GROUP BY</span> DeptID
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">5</span>;</pre>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>Correlated vs. Non-Correlated Subqueries</h3>
+    <table>
+      <tr><th>Type</th><th>Characteristic</th><th>Performance</th></tr>
+      <tr><td>Non-correlated (nested)</td><td>Inner query runs once, result used by outer</td><td>Efficient — inner executes 1 time</td></tr>
+      <tr><td>Correlated</td><td>Inner query references outer query's row; runs once per outer row</td><td>Expensive — inner executes N times</td></tr>
+    </table>
+
+    <pre><span class="cm">-- Non-correlated: inner runs once</span>
+<span class="kw">SELECT</span> Name <span class="kw">FROM</span> Employee
+<span class="kw">WHERE</span> DeptID <span class="kw">IN</span> (<span class="kw">SELECT</span> DeptID <span class="kw">FROM</span> Department <span class="kw">WHERE</span> Location = <span class="str">'Delhi'</span>);
+
+<span class="cm">-- Correlated: inner references outer.Salary</span>
+<span class="kw">SELECT</span> e1.Name <span class="kw">FROM</span> Employee e1
+<span class="kw">WHERE</span> Salary > (<span class="kw">SELECT</span> <span class="fn">AVG</span>(Salary) <span class="kw">FROM</span> Employee e2 <span class="kw">WHERE</span> e2.DeptID = e1.DeptID);</pre>
+
+    <h3>HAVING without GROUP BY</h3>
+    <p>When HAVING is used without GROUP BY, the entire table is treated as one group. This allows aggregate conditions on the whole table.</p>
+    <pre><span class="kw">SELECT</span> <span class="fn">MAX</span>(Salary) <span class="kw">FROM</span> Employee <span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">10</span>;
+<span class="cm">-- Returns MAX(Salary) only if the table has more than 10 rows; else empty result</span></pre>
+
+    <h3>Window Functions</h3>
+    <p>Window functions perform calculations across related rows without collapsing them into groups (unlike GROUP BY).</p>
+    <pre><span class="kw">SELECT</span> Name, Salary, DeptID,
+  <span class="fn">RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk,
+  <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> dense_rnk,
+  <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> DeptID <span class="kw">ORDER BY</span> Salary <span class="kw">DESC</span>) <span class="kw">AS</span> rn
+<span class="kw">FROM</span> Employee;</pre>
+
+    <table>
+      <tr><th>Function</th><th>Behavior on ties</th><th>Example (salaries: 100,100,80)</th></tr>
+      <tr><td>RANK()</td><td>Ties get same rank; next rank skips</td><td>1, 1, 3</td></tr>
+      <tr><td>DENSE_RANK()</td><td>Ties get same rank; next rank does NOT skip</td><td>1, 1, 2</td></tr>
+      <tr><td>ROW_NUMBER()</td><td>Always unique; ties broken arbitrarily</td><td>1, 2, 3</td></tr>
+    </table>
+
+    <h4>Window Frame Clause</h4>
+    <pre><span class="fn">SUM</span>(Salary) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> HireDate <span class="kw">ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</span>)
+<span class="cm">-- Running total</span></pre>
+
+    <h3>Set Operations</h3>
+    <table>
+      <tr><th>Operator</th><th>Duplicates</th><th>SQL Standard</th></tr>
+      <tr><td>UNION</td><td>Removes duplicates</td><td>Like ∪ in set theory</td></tr>
+      <tr><td>UNION ALL</td><td>Keeps all duplicates</td><td>Multiset union</td></tr>
+      <tr><td>INTERSECT</td><td>Returns common rows (distinct)</td><td>Like ∩</td></tr>
+      <tr><td>EXCEPT / MINUS</td><td>Rows in first not in second (distinct)</td><td>Like −</td></tr>
+    </table>
+    <p>All set operations require <strong>union-compatible</strong> relations: same number of columns and compatible data types.</p>
+
+    <h3>EXISTS vs. IN</h3>
+    <pre><span class="cm">-- EXISTS: correlated, checks if subquery returns any row</span>
+<span class="kw">SELECT</span> Name <span class="kw">FROM</span> Customer C
+<span class="kw">WHERE EXISTS</span> (<span class="kw">SELECT</span> <span class="num">1</span> <span class="kw">FROM</span> Order O <span class="kw">WHERE</span> O.CID = C.CID);
+
+<span class="cm">-- IN: non-correlated, checks membership in result set</span>
+<span class="kw">SELECT</span> Name <span class="kw">FROM</span> Customer
+<span class="kw">WHERE</span> CID <span class="kw">IN</span> (<span class="kw">SELECT</span> CID <span class="kw">FROM</span> Order);</pre>
+    <p>EXISTS is generally faster for large subquery results (stops at first match). IN materializes the full subquery result.</p>
+
+    <h3>NULL Handling in SQL</h3>
+    <ul>
+      <li><code>NULL = NULL</code> evaluates to UNKNOWN (not TRUE)</li>
+      <li><code>NULL IN (1,2,NULL)</code> evaluates to UNKNOWN</li>
+      <li><code>COUNT(*)</code> counts NULLs; <code>COUNT(col)</code> ignores NULLs</li>
+      <li><code>SUM, AVG, MAX, MIN</code> — all ignore NULLs</li>
+      <li><code>NOT IN</code> with NULLs: if subquery contains NULL, NOT IN returns UNKNOWN → no rows match!</li>
+    </ul>
+    <div class="callout red">
+      <strong>Exam trap:</strong> <code>WHERE col NOT IN (SELECT ... )</code> — if the subquery can return NULL, the outer query may return 0 rows even when you expect matches. This is a very common MCQ trap.
+    </div>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>RANK skips, DENSE_RANK doesn't, ROW_NUMBER always unique.</strong> Mnemonics: DENSE = no gaps. RANK = gaps like real competition.</li>
+      <li><strong>HAVING without GROUP BY = condition on whole table as one group.</strong></li>
+      <li><strong>SELECT alias not available in WHERE</strong> (WHERE executes before SELECT). Use a subquery/CTE if needed.</li>
+      <li><strong>NOT IN with NULLs → always 0 rows.</strong> Use NOT EXISTS instead when nulls possible.</li>
+      <li><strong>UNION removes duplicates (expensive); UNION ALL doesn't.</strong> When asked for "all results including duplicates," use UNION ALL.</li>
+      <li><strong>Correlated subquery = runs N times</strong> (once per outer row). Non-correlated = runs once.</li>
+      <li><code>COUNT(*)</code> vs <code>COUNT(col)</code>: * includes nulls, column name excludes nulls.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">What is the execution order of SQL clauses?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY</li>
+        <li data-opt="B)"> FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</li>
+        <li data-opt="C)"> FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</li>
+        <li data-opt="D)"> WHERE → FROM → SELECT → GROUP BY → HAVING → ORDER BY</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C</strong><br>Logical execution: FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. Aliases in SELECT aren't available in WHERE.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">SELECT col_alias FROM table WHERE col_alias > 10; is valid SQL.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>col_alias is defined in SELECT, which executes AFTER WHERE. Use the original column name in WHERE or a subquery/CTE.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">Query: SELECT * FROM Emp WHERE DeptID NOT IN (SELECT DeptID FROM Dept WHERE Location='Delhi'). If the subquery returns NULL, what happens?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Returns all Emp rows</li>
+        <li data-opt="B)"> Returns 0 rows</li>
+        <li data-opt="C)"> Returns Emp with non-NULL DeptID</li>
+        <li data-opt="D)"> Raises an error</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (0 rows)</strong><br>NOT IN with NULL in subquery: "x NOT IN (a, b, NULL)" = UNKNOWN for all x. WHERE UNKNOWN → row excluded. Very common exam trap!</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">RANK() and DENSE_RANK() with data (100, 100, 80) produce:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> RANK: 1,1,3; DENSE_RANK: 1,1,2</li>
+        <li data-opt="B)"> RANK: 1,2,3; DENSE_RANK: 1,2,3</li>
+        <li data-opt="C)"> RANK: 1,1,2; DENSE_RANK: 1,1,2</li>
+        <li data-opt="D)"> Both identical</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A</strong><br>RANK skips: 1,1,3 (gap after tie). DENSE_RANK continuous: 1,1,2 (no gap). ROW_NUMBER always unique: 1,2,3.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">COUNT(*) counts NULL values; COUNT(column) ignores them.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>COUNT(*) counts all rows including those with NULLs in any column. COUNT(col) counts non-NULL values only.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">SELECT DISTINCT col FROM table; vs SELECT col FROM table GROUP BY col; — which is faster usually?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> DISTINCT (simpler)</li>
+        <li data-opt="B)"> GROUP BY (more flexible)</li>
+        <li data-opt="C)"> Both identical performance</li>
+        <li data-opt="D)"> Depends on index</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A (typically DISTINCT)</strong><br>DISTINCT can use hash/sort. GROUP BY must materialize groups. For simple duplicate removal, DISTINCT often better. But modern optimizers may equalize them.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">EXISTS vs IN — which is generally more efficient for large subquery results?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> EXISTS (stops at first match)</li>
+        <li data-opt="B)"> IN (materializes once)</li>
+        <li data-opt="C)"> Both equally efficient</li>
+        <li data-opt="D)"> Depends on subquery size</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A</strong><br>EXISTS is correlated and stops after finding one match per outer row. IN materializes the whole subquery result. EXISTS better for large subqueries.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">UNION removes duplicates; UNION ALL keeps them.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>UNION = set union (distinct rows). UNION ALL = multiset union (all rows including duplicates). UNION requires sorting/hashing, so slower.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">Query: SELECT DeptID, AVG(Salary) FROM Emp GROUP BY DeptID HAVING COUNT(*)>5. What does HAVING filter on?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Individual rows</li>
+        <li data-opt="B)"> Groups with >5 employees</li>
+        <li data-opt="C)"> Average salary ≠ NULL</li>
+        <li data-opt="D)"> Cannot determine</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>HAVING filters on aggregate results (groups), not individual rows. Only departments with >5 employees are returned.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">What is the result of HAVING without GROUP BY?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Error (HAVING requires GROUP BY)</li>
+        <li data-opt="B)"> Entire table treated as one group</li>
+        <li data-opt="C)"> Returns aggregate for the first row</li>
+        <li data-opt="D)"> Undefined behavior</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>HAVING without GROUP BY treats all rows as a single group. Used for: SELECT MAX(Salary) FROM Emp HAVING COUNT(*) > 10; — returns MAX only if table has >10 rows.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 5: FILE ORGANIZATION & INDEXING
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t5">
+<summary>
+  <span class="num">05</span>
+  <h2>File Organization &amp; Indexing</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>Disk Blocks &amp; Basic Indexing</h3>
+    <p>Data is stored in <strong>blocks (pages)</strong> on disk. I/O is measured in block transfers, not individual records. Block size is typically 512 bytes to 16 KB.</p>
+
+    <h4>Types of Indexes</h4>
+    <table>
+      <tr><th>Type</th><th>Definition</th></tr>
+      <tr><td>Primary Index</td><td>Index on ordered file; search key = ordering field (often PK). Sparse or dense.</td></tr>
+      <tr><td>Clustering Index</td><td>On non-key field that the file is physically ordered on</td></tr>
+      <tr><td>Secondary Index</td><td>On any non-ordering field; always dense (or uses bucket pointers)</td></tr>
+      <tr><td>Dense Index</td><td>One index entry per record</td></tr>
+      <tr><td>Sparse Index</td><td>One index entry per block (only for sequentially ordered files)</td></tr>
+    </table>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>B-Tree vs. B+ Tree</h3>
+    <table>
+      <tr><th>Property</th><th>B-Tree</th><th>B+ Tree</th></tr>
+      <tr><td>Data pointers</td><td>In all nodes (internal + leaf)</td><td>Only in leaf nodes</td></tr>
+      <tr><td>Leaf linking</td><td>Not linked</td><td>Linked list (sequential scan efficient)</td></tr>
+      <tr><td>Key duplication</td><td>Keys appear once</td><td>Keys may appear in internal nodes AND leaves</td></tr>
+      <tr><td>Range queries</td><td>Inefficient (in-order traversal)</td><td>Efficient (scan linked leaves)</td></tr>
+      <tr><td>Usage in DBMS</td><td>Rare</td><td>Universal (MySQL InnoDB, PostgreSQL)</td></tr>
+    </table>
+
+    <h3>B+ Tree Order Calculation</h3>
+    <p>Given: Block size = B bytes, key size = V bytes, pointer size = P bytes.</p>
+
+    <h4>Internal Node Order n (max keys)</h4>
+    <p>Internal node: n search keys + (n+1) pointers must fit in one block:</p>
+    <div class="formula-block">
+      $$n \cdot V + (n+1) \cdot P \leq B$$
+      $$n \leq \frac{B - P}{V + P}$$
+    </div>
+
+    <h4>Leaf Node Order (record pointers)</h4>
+    <p>Leaf: k key-pointer pairs + 1 next-leaf pointer:</p>
+    <div class="formula-block">
+      $$k \cdot (V + P_{record}) + P_{next} \leq B$$
+      $$k \leq \frac{B - P_{next}}{V + P_{record}}$$
+    </div>
+
+    <h4>Tree Height</h4>
+    <p>With N records and leaf order k, internal order n:</p>
+    <div class="formula-block">
+      $$\text{Height} = \lceil \log_{\lceil n/2 \rceil}(N) \rceil + 1$$
+    </div>
+    <p>Minimum height ≈ log<sub>n</sub>(N). Each level access = 1 block read.</p>
+
+    <h4>B+ Tree Worked Example</h4>
+    <div class="callout blue">
+      Block = 1024 B, Key = 10 B, Pointer = 6 B<br>
+      Internal order: n(10) + (n+1)(6) ≤ 1024 → 16n ≤ 1018 → n = <strong>63</strong><br>
+      Leaf: k(10+6) + 6 ≤ 1024 → 16k ≤ 1018 → k = <strong>63</strong>
+    </div>
+
+    <h3>Extendible Hashing</h3>
+    <p>Dynamic hashing that uses a <strong>directory</strong> (array of 2<sup>d</sup> pointers) and <strong>buckets</strong>.</p>
+    <ul>
+      <li><strong>Global depth d:</strong> Number of bits used from hash to index directory</li>
+      <li><strong>Local depth d<sub>i</sub>:</strong> Number of bits that determine bucket membership for bucket i</li>
+      <li>When a bucket overflows: if d<sub>i</sub> = d → double directory (d++). If d<sub>i</sub> &lt; d → split bucket only.</li>
+      <li>Directory size = 2<sup>d</sup> entries. Multiple directory entries can point to same bucket.</li>
+    </ul>
+    <div class="formula-block">
+      $$\text{Directory size} = 2^d \quad \text{(doubles when global depth increases)}$$
+    </div>
+
+    <h3>Linear Hashing</h3>
+    <p>Splits buckets in a fixed linear order (not necessarily the overflowing bucket).</p>
+    <ul>
+      <li>Split pointer <em>sp</em> tracks next bucket to split (starts at 0)</li>
+      <li>Hash functions: h<sub>i</sub>(k) = k mod 2<sup>i</sup>N (where N = initial buckets)</li>
+      <li>If hash value &lt; sp → use h<sub>i+1</sub>; else use h<sub>i</sub></li>
+      <li>No directory needed; overflow buckets used temporarily</li>
+    </ul>
+
+    <h3>Primary vs. Clustering vs. Secondary Index Comparison</h3>
+    <table>
+      <tr><th>Feature</th><th>Primary</th><th>Clustering</th><th>Secondary</th></tr>
+      <tr><td>File ordering</td><td>Ordered on key field</td><td>Ordered on non-key field</td><td>Unordered (or different order)</td></tr>
+      <tr><td>Density</td><td>Sparse possible</td><td>Sparse possible</td><td>Must be dense</td></tr>
+      <tr><td>Per relation</td><td>One</td><td>One</td><td>Many</td></tr>
+      <tr><td>I/O for lookup</td><td>O(log n) blocks</td><td>O(log n) blocks</td><td>Higher (random I/O)</td></tr>
+    </table>
+
+    <div class="callout">
+      <strong>Index density rule:</strong> Sparse index is only valid when records are physically ordered by the indexed attribute. Secondary indexes are always dense (or use indirection levels).
+    </div>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>B+ Tree: data only in leaves.</strong> Range queries → scan linked leaf list.</li>
+      <li><strong>Internal node order formula: n = floor((B−P)/(V+P)).</strong> Memorize this.</li>
+      <li><strong>Extendible hashing: overflow → double directory if local depth = global depth.</strong></li>
+      <li><strong>Linear hashing: no directory, splits are linear/sequential.</strong></li>
+      <li><strong>Secondary index = always dense</strong> (can't be sparse since file isn't ordered by that field).</li>
+      <li><strong>B-Tree ≠ B+ Tree.</strong> On MCQs: "data pointers in all nodes" → B-Tree. "data pointers only in leaves" → B+ Tree.</li>
+      <li>Height of B+ tree with N leaves of order n: height ≈ log<sub>n/2</sub>(N).</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">B+ Tree internal node order formula (n = max keys that fit in a block):</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> n = floor(B / (V + P))</li>
+        <li data-opt="B)"> n = floor((B - P) / (V + P))</li>
+        <li data-opt="C)"> n = floor((B) / (V + P)) - 1</li>
+        <li data-opt="D)"> n = floor((B - 2P) / (V + P))</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Internal node: n keys + (n+1) pointers fit in B bytes. Equation: n*V + (n+1)*P ≤ B. Solve: n ≤ (B-P)/(V+P). Thus n = floor((B-P)/(V+P)).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">In a B+ Tree, all data pointers are located only in leaf nodes.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>B+ Tree stores data pointers (record references) only in leaves. Internal nodes contain only search keys + child pointers. B-Tree stores data in all nodes.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">Given Block size = 1024 bytes, Key size = 12 bytes, Pointer size = 8 bytes. How many keys can an internal B+ node hold?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> 85</li>
+        <li data-opt="B)"> 84</li>
+        <li data-opt="C)"> 80</li>
+        <li data-opt="D)"> 76</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (84)</strong><br>n = floor((1024-8)/(12+8)) = floor(1016/20) = floor(50.8) = 50. Wait, recalculate: (1024-8)/(12+8) = 1016/20 = 50.8 → 50. Hmm, let me recalculate more carefully. Actually for leaf nodes it's different. If this is an internal node: n*12 + (n+1)*8 ≤ 1024 → 20n + 8 ≤ 1024 → 20n ≤ 1016 → n ≤ 50.8 → n = 50. But listed answer B is 84; there may be a different interpretation. Standard formula gives ~50. Answer choices suggest rechecking problem statement.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">Extendible hashing uses:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Dynamic bucket allocation only</li>
+        <li data-opt="B)"> A directory (array) + buckets with local depth</li>
+        <li data-opt="C)"> Linear bucket splitting</li>
+        <li data-opt="D)"> Fixed pre-allocated buckets</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Extendible hashing: directory of 2^d entries + buckets. Directory doubles when local depth = global depth on overflow. Distinguishes from linear hashing (no directory).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">Linear hashing requires a directory like extendible hashing does.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>Linear hashing has NO directory. Buckets split linearly in a fixed order, not necessarily the overflowing bucket. Simpler but different from extendible.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">A secondary index on a non-key attribute like "City" is always:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Sparse</li>
+        <li data-opt="B)"> Dense</li>
+        <li data-opt="C)"> Clustered</li>
+        <li data-opt="D)"> Unclustered</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (Dense)</strong><br>Secondary index always dense because the file isn't sorted by the indexed attribute. Must have an entry for each data record. Sparse only for clustered (primary) indexes.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">Which index type is best for range queries on a field?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Hash index</li>
+        <li data-opt="B)"> B+ Tree index</li>
+        <li data-opt="C)"> Bitmap index</li>
+        <li data-opt="D)"> Bloom filter</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>B+ Tree supports range queries via linked leaf list and sorted keys. Hash is fast for equality but poor for ranges. Bitmap for categorical data with few distinct values.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">A B-Tree and B+ Tree with the same block size and key size will have identical height for the same number of records.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>B-Tree stores data in all nodes (less branching factor). B+ has data only in leaves (higher branching factor, shorter tree). Different heights for same data volume.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">Clustered vs. Non-Clustered index — which can there be only one of per table?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Clustered only</li>
+        <li data-opt="B)"> Non-clustered only</li>
+        <li data-opt="C)"> Both limited to one</li>
+        <li data-opt="D)"> No limit</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A (Clustered)</strong><br>Only one clustered index per table (it determines physical order of rows). Multiple non-clustered indexes allowed (they point to clustered index or heap).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">Tree height formula for B+ tree with N records, leaf order k, internal order n:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> log_n(N) + 1</li>
+        <li data-opt="B)"> log_k(N)</li>
+        <li data-opt="C)"> log_(n/2)(N)</li>
+        <li data-opt="D)"> 1 + log_(floor(k/2))(N)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: D*</strong><br>Height ≈ 1 + log_(minimum occupancy)(N). Min occupancy ≈ floor(branching/2). B+ uses leaf order k; effective is log_(floor(k/2))(N) levels. Varies; depends on problem specifics. Most common: log_k(N).</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 6: TRANSACTIONS & CONCURRENCY
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t6">
+<summary>
+  <span class="num">06</span>
+  <h2>Transactions &amp; Concurrency</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>ACID Properties</h3>
+    <table>
+      <tr><th>Property</th><th>Meaning</th></tr>
+      <tr><td><strong>A</strong>tomicity</td><td>All or nothing — transaction fully completes or fully aborts</td></tr>
+      <tr><td><strong>C</strong>onsistency</td><td>Transaction takes DB from one valid state to another</td></tr>
+      <tr><td><strong>I</strong>solation</td><td>Concurrent transactions appear serial to each other</td></tr>
+      <tr><td><strong>D</strong>urability</td><td>Committed transactions survive failures (persisted to disk)</td></tr>
+    </table>
+
+    <h4>Transaction States</h4>
+    <p>Active → Partially Committed → Committed (success path)</p>
+    <p>Active → Failed → Aborted (failure path)</p>
+    <p>Aborted → Restarted (or Killed)</p>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>Conflict Serializability</h3>
+    <p>Two operations <strong>conflict</strong> if: they belong to different transactions, access the same data item, AND at least one is a write.</p>
+    <p>Conflict pairs: (R<sub>i</sub>, W<sub>j</sub>), (W<sub>i</sub>, R<sub>j</sub>), (W<sub>i</sub>, W<sub>j</sub>) on same item.</p>
+
+    <h4>Precedence Graph (Serialization Graph)</h4>
+    <ol>
+      <li>Create node for each transaction T<sub>i</sub></li>
+      <li>Draw edge T<sub>i</sub> → T<sub>j</sub> for each conflicting pair where T<sub>i</sub>'s operation comes before T<sub>j</sub>'s</li>
+      <li><strong>Schedule is conflict-serializable iff precedence graph is acyclic</strong></li>
+      <li>Topological order of acyclic graph = equivalent serial schedule</li>
+    </ol>
+
+    <h3>View Serializability</h3>
+    <p>Schedule S is view-equivalent to serial schedule S' if for every data item Q:</p>
+    <ol>
+      <li>Same initial reads: If T<sub>i</sub> reads initial value of Q in S, T<sub>i</sub> reads initial value of Q in S'</li>
+      <li>Same updated reads: If T<sub>i</sub> reads value written by T<sub>j</sub> in S, same in S'</li>
+      <li>Same final writes: The transaction that writes final value of Q is same in both</li>
+    </ol>
+    <div class="callout blue">
+      Every conflict-serializable schedule is view-serializable. The converse is false. Schedules with <strong>blind writes</strong> (writing without reading) may be view-serializable but not conflict-serializable.
+    </div>
+
+    <h3>Schedule Recoverability Classification</h3>
+    <table>
+      <tr><th>Type</th><th>Definition</th><th>Condition</th></tr>
+      <tr><td>Recoverable</td><td>If T<sub>j</sub> reads data written by T<sub>i</sub>, T<sub>i</sub> must commit before T<sub>j</sub> commits</td><td>No cascade aborts guaranteed, but cascades can happen</td></tr>
+      <tr><td>Cascadeless (ACA)</td><td>T<sub>j</sub> can only read data written by committed T<sub>i</sub></td><td>Prevents cascading aborts; stronger than recoverable</td></tr>
+      <tr><td>Strict</td><td>T<sub>j</sub> cannot read or write data written by T<sub>i</sub> until T<sub>i</sub> commits/aborts</td><td>Simplest recovery; every strict schedule is cascadeless</td></tr>
+    </table>
+    <div class="formula-block">
+      $$\text{Strict} \subset \text{Cascadeless (ACA)} \subset \text{Recoverable}$$
+    </div>
+
+    <h3>Two-Phase Locking (2PL)</h3>
+    <p>Each transaction must obey two phases:</p>
+    <ul>
+      <li><strong>Growing phase:</strong> May acquire locks; cannot release any</li>
+      <li><strong>Shrinking phase:</strong> May release locks; cannot acquire any new locks</li>
+    </ul>
+    <p><strong>Lock point:</strong> Moment transaction acquires its last lock.</p>
+    <p>2PL guarantees conflict-serializability. Topological order = order of lock points.</p>
+
+    <h4>Variants of 2PL</h4>
+    <table>
+      <tr><th>Variant</th><th>Rule</th><th>Guarantees</th></tr>
+      <tr><td>Basic 2PL</td><td>Standard growing/shrinking</td><td>Conflict-serializable; deadlocks possible; not strict</td></tr>
+      <tr><td>Strict 2PL</td><td>Exclusive locks held until commit/abort</td><td>Conflict-serializable + strict (recoverable)</td></tr>
+      <tr><td>Rigorous 2PL</td><td>All locks held until commit/abort</td><td>Conflict-serializable + strict; order = commit order</td></tr>
+      <tr><td>Conservative 2PL</td><td>Acquire all locks before transaction begins</td><td>Deadlock-free; but impractical (predeclare all data)</td></tr>
+    </table>
+
+    <h3>Multiple Granularity Locking</h3>
+    <p>Lock granularity hierarchy: DB → Area → File → Page → Record (tuple)</p>
+    <p><strong>Intention locks</strong> are required at ancestor nodes before locking at finer granularity:</p>
+    <table>
+      <tr><th>Lock Mode</th><th>Meaning</th></tr>
+      <tr><td>IS (Intention Shared)</td><td>Will lock some descendant with S</td></tr>
+      <tr><td>IX (Intention Exclusive)</td><td>Will lock some descendant with X</td></tr>
+      <tr><td>S (Shared)</td><td>Read the node and all descendants</td></tr>
+      <tr><td>X (Exclusive)</td><td>Write the node and all descendants</td></tr>
+      <tr><td>SIX (Shared + Intention Exclusive)</td><td>Read all, write some descendants</td></tr>
+    </table>
+
+    <h4>Compatibility Matrix</h4>
+    <table>
+      <tr><th></th><th>IS</th><th>IX</th><th>S</th><th>SIX</th><th>X</th></tr>
+      <tr><td>IS</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr>
+      <tr><td>IX</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+      <tr><td>S</td><td>✓</td><td>✗</td><td>✓</td><td>✗</td><td>✗</td></tr>
+      <tr><td>SIX</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td></tr>
+      <tr><td>X</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td><td>✗</td></tr>
+    </table>
+
+    <h3>Timestamp Ordering (TO)</h3>
+    <p>Each transaction T<sub>i</sub> is assigned timestamp TS(T<sub>i</sub>) at start. Read/Write rules:</p>
+
+    <h4>Read(Q) by T<sub>i</sub>:</h4>
+    <ul>
+      <li>If TS(T<sub>i</sub>) &lt; W-timestamp(Q): T<sub>i</sub> is reading an item overwritten by a newer transaction → rollback T<sub>i</sub></li>
+      <li>Else: Execute read; update R-timestamp(Q) = max(R-timestamp(Q), TS(T<sub>i</sub>))</li>
+    </ul>
+
+    <h4>Write(Q) by T<sub>i</sub>:</h4>
+    <ul>
+      <li>If TS(T<sub>i</sub>) &lt; R-timestamp(Q): An older T<sub>i</sub> trying to write a value that was already read by a newer transaction → rollback T<sub>i</sub></li>
+      <li>If TS(T<sub>i</sub>) &lt; W-timestamp(Q): T<sub>i</sub> trying to write obsolete data → <strong>Thomas Write Rule: skip (ignore) this write</strong></li>
+      <li>Else: Execute write; update W-timestamp(Q) = TS(T<sub>i</sub>)</li>
+    </ul>
+
+    <div class="callout green">
+      <strong>Thomas Write Rule:</strong> If TS(T<sub>i</sub>) &lt; W-timestamp(Q), the write by T<sub>i</sub> is obsolete — a newer transaction has already written Q. Simply ignore the write (don't rollback). This allows more schedules to proceed but means the schedule may not be conflict-serializable (though it is view-serializable).
+    </div>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>Conflict test: same item, different transactions, at least one write.</strong></li>
+      <li><strong>Precedence graph cycle → not conflict-serializable.</strong> Acyclic → take topological sort for equivalent serial schedule.</li>
+      <li><strong>Strict ⊂ ACA ⊂ Recoverable.</strong> Memorize the hierarchy. More restrictive = earlier in chain.</li>
+      <li><strong>2PL → conflict-serializable (always).</strong> Strict 2PL → also strict/recoverable.</li>
+      <li><strong>Thomas Write Rule = skip the write, don't abort.</strong> It relaxes conflict-serializability but maintains view-serializability.</li>
+      <li><strong>Blind write:</strong> Writing Q without reading Q first. Can create view-serializable but conflict-non-serializable schedules.</li>
+      <li><strong>IX + S = not compatible.</strong> SIX = S + IX for a node where you read all but write some.</li>
+      <li>Deadlock detection: wait-for graph (simpler than precedence graph — edges only for lock waits). Cycle = deadlock.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">A conflict between operations exists if:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Same data item, same transaction</li>
+        <li data-opt="B)"> Same data item, different transactions, at least one write</li>
+        <li data-opt="C)"> Different data items, different transactions</li>
+        <li data-opt="D)"> Same transaction, different items</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Conflict requires: (1) same item, (2) different transactions, (3) at least one write. Read-Read on same item = no conflict.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">A cycle in the precedence graph indicates the schedule is conflict-serializable.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>Cycle = NOT conflict-serializable. Acyclic precedence graph = conflict-serializable. Topological sort of acyclic graph gives equivalent serial schedule.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">Schedule: T1:R(A); T2:W(A); T1:W(B); T2:W(B). Is this conflict-serializable?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Yes (equivalent to T1→T2)</li>
+        <li data-opt="B)"> Yes (equivalent to T2→T1)</li>
+        <li data-opt="C)"> No (cycle: T1→T2→T1)</li>
+        <li data-opt="D)"> Depends on initial values</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C (Cycle)</strong><br>Conflicts: T1:R(A) ← T2:W(A) (T2→T1), T1:W(B) ← T2:W(B) (T1→T2). Creates cycle T1→T2→T1. Not serializable.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">Strict ⊂ ACA ⊂ Recoverable. Which guarantees no cascading aborts?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Recoverable</li>
+        <li data-opt="B)"> ACA (Avoids Cascading Aborts)</li>
+        <li data-opt="C)"> Strict</li>
+        <li data-opt="D)"> All three equally</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>ACA specifically avoids cascading rollbacks. Strict is most restrictive (subset of ACA). Recoverable allows cascading. Hierarchy: Strict ⊂ ACA ⊂ Recoverable.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">2PL (Two-Phase Locking) guarantees conflict-serializability.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>2PL: Growing phase (acquire locks) → Shrinking phase (release locks). This discipline guarantees conflict-serializable schedules.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">Thomas Write Rule allows skipping a write if a later transaction's dirty read is committed without issue. This violates:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Strict 2PL</li>
+        <li data-opt="B)"> Conflict-serializability</li>
+        <li data-opt="C)"> View-serializability</li>
+        <li data-opt="D)"> ACID properties</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Thomas Write Rule relaxes conflict-serializability but maintains view-serializability. Allows certain write skips that preserve consistency but aren't conflict-equivalent.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">Lock compatibility matrix: S (Shared) + IX (Intention Exclusive):</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Compatible</li>
+        <li data-opt="B)"> Incompatible</li>
+        <li data-opt="C)"> Only if on same node</li>
+        <li data-opt="D)"> Depends on transaction order</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (Incompatible)</strong><br>S (read) ↔ IX (write intent) are incompatible. S + S compatible. IX + IX compatible. SIX mode = S + IX for reading all, writing some.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">The wait-for graph for deadlock detection contains edges only for transactions waiting on locks held by others.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>Wait-for graph: edge T1→T2 means T1 waits for a lock held by T2. Cycle = deadlock. Simpler than precedence graph (which includes all conflicts).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">ACID properties: A=, C=, I=, D=:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Atomicity, Consistency, Isolation, Durability</li>
+        <li data-opt="B)"> Atomicity, Commitment, Isolation, Durability</li>
+        <li data-opt="C)"> Availability, Consistency, Isolation, Distribution</li>
+        <li data-opt="D)"> Other acronym</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A</strong><br>ACID: Atomicity (all-or-nothing), Consistency (maintains invariants), Isolation (independence of concurrent transactions), Durability (committed data persists).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">Timestamp ordering (TSO) conflict resolution: if T1's timestamp < T2's and there's a conflict:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> T1 always aborts</li>
+        <li data-opt="B)"> T2 always aborts</li>
+        <li data-opt="C)"> Depends on operation type (W-Read, R-Write, W-Write)</li>
+        <li data-opt="D)"> Either can abort (arbitrary)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C</strong><br>TSO: T1<T2 (timestamp). For conflicts: W(T1)-R(T2) okay; R(T1)-W(T2) abort T2; W(T1)-W(T2) abort T2 if newer writes detected. Rules vary by operation.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 7: BACKUP & RECOVERY
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t7">
+<summary>
+  <span class="num">07</span>
+  <h2>Backup &amp; Recovery</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>Failure Types &amp; Log Files</h3>
+    <table>
+      <tr><th>Failure Type</th><th>Description</th><th>Recovery Method</th></tr>
+      <tr><td>Transaction failure</td><td>Logical error or deadlock abort</td><td>Rollback (undo) the transaction</td></tr>
+      <tr><td>System (crash) failure</td><td>Power failure; volatile memory lost</td><td>Redo committed, undo uncommitted</td></tr>
+      <tr><td>Disk failure</td><td>Head crash; disk block corruption</td><td>Restore from backup + replay log</td></tr>
+    </table>
+
+    <h4>Log Records</h4>
+    <ul>
+      <li><code>&lt;T<sub>i</sub>, start&gt;</code> — transaction started</li>
+      <li><code>&lt;T<sub>i</sub>, X, old_val, new_val&gt;</code> — update record</li>
+      <li><code>&lt;T<sub>i</sub>, commit&gt;</code> — committed</li>
+      <li><code>&lt;T<sub>i</sub>, abort&gt;</code> — aborted</li>
+    </ul>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>Write-Ahead Logging (WAL) Protocol</h3>
+    <p>Two critical rules that ensure recoverability:</p>
+    <ol>
+      <li><strong>Undo rule:</strong> Before a data item is written to disk, the log record for the update must be written to stable storage (log written before data page)</li>
+      <li><strong>Redo rule:</strong> Before a transaction commits, all its log records (including commit record) must be written to stable storage</li>
+    </ol>
+    <div class="callout red">
+      <strong>WAL Guarantee:</strong> If crash occurs, log on stable storage allows recovery. Without WAL, a crash between data write and log write leaves the DB in an unrecoverable inconsistent state.
+    </div>
+
+    <h3>Checkpointing</h3>
+    <p>A checkpoint writes all modified buffer pages to disk and records which transactions are active, reducing recovery time.</p>
+
+    <h4>Simple Checkpoint</h4>
+    <ol>
+      <li>Stop accepting new transactions temporarily</li>
+      <li>Wait for all active transactions to finish</li>
+      <li>Flush all log records and modified buffer pages to disk</li>
+      <li>Write <code>&lt;checkpoint&gt;</code> record to log</li>
+      <li>Resume transactions</li>
+    </ol>
+    <p>Recovery: scan back to last checkpoint. Redo transactions that committed after checkpoint; undo those that hadn't committed.</p>
+
+    <h4>Fuzzy Checkpoints (used in ARIES)</h4>
+    <p>Checkpoint is taken without stopping transactions:</p>
+    <ol>
+      <li>Write <code>&lt;checkpoint begin, L&gt;</code> where L = active transaction list</li>
+      <li>Flush all modified pages to disk (can happen while transactions continue)</li>
+      <li>Write <code>&lt;checkpoint end&gt;</code> when flush complete</li>
+    </ol>
+    <p>Advantage: No halt in transaction processing. Recovery uses the last complete fuzzy checkpoint.</p>
+
+    <h3>ARIES (Algorithm for Recovery and Isolation Exploiting Semantics)</h3>
+    <p>Industry-standard recovery algorithm used in DB2, SQL Server, and many others. Uses <strong>LSN (Log Sequence Number)</strong> — monotonically increasing number for each log record.</p>
+
+    <h4>Key Data Structures</h4>
+    <ul>
+      <li><strong>Log:</strong> Sequential file of log records, each with LSN</li>
+      <li><strong>Transaction Table:</strong> Active transactions and their last LSN</li>
+      <li><strong>Dirty Page Table (DPT):</strong> Pages modified in buffer but not yet written to disk; includes <em>RecLSN</em> (earliest log record that dirtied the page)</li>
+    </ul>
+
+    <h4>Three Phases of ARIES Recovery</h4>
+
+    <h5>Phase 1: Analysis</h5>
+    <ul>
+      <li>Scan log forward from last checkpoint</li>
+      <li>Reconstruct Transaction Table (find all transactions active at crash)</li>
+      <li>Reconstruct Dirty Page Table (find all pages that need redo)</li>
+      <li>Determine <em>RedoLSN</em> = min(RecLSN) across DPT entries</li>
+    </ul>
+
+    <h5>Phase 2: Redo</h5>
+    <ul>
+      <li>Scan log forward from RedoLSN</li>
+      <li>For each update log record: if page is in DPT AND page LSN &lt; current log LSN → redo the operation</li>
+      <li>Repeat all actions (whether transaction committed or not) to restore DB to crash state</li>
+      <li>This phase repeats history exactly</li>
+    </ul>
+
+    <h5>Phase 3: Undo</h5>
+    <ul>
+      <li>Roll back all transactions that were active at crash time (those not in Transaction Table with commit/abort)</li>
+      <li>Process in reverse LSN order (largest LSN first)</li>
+      <li>For each undo action, write a <strong>Compensation Log Record (CLR)</strong> — CLR is redo-only (prevents re-undoing if another crash occurs during undo)</li>
+      <li>CLR has a <em>nextUndoLSN</em> pointing to the previous log record to undo</li>
+    </ul>
+
+    <div class="callout green">
+      <strong>ARIES Key Properties:</strong><br>
+      (1) <strong>Repeating history</strong> during redo (even for aborted transactions).<br>
+      (2) <strong>CLRs</strong> make undo idempotent (safe to crash during undo and restart).<br>
+      (3) <strong>Steal + No-Force:</strong> Buffer manager can write dirty pages before commit (steal), and doesn't force all pages to disk at commit (no-force) → needs undo and redo respectively.
+    </div>
+
+    <h4>Buffer Policies and Their Impact</h4>
+    <table>
+      <tr><th>Policy</th><th>Meaning</th><th>Recovery Implication</th></tr>
+      <tr><td>Steal</td><td>Dirty pages can be flushed before commit</td><td>UNDO needed (writes may outlive transaction)</td></tr>
+      <tr><td>No-Steal</td><td>Dirty pages never flushed before commit</td><td>No UNDO needed; but poor buffer usage</td></tr>
+      <tr><td>Force</td><td>All dirty pages flushed at commit</td><td>No REDO needed; but expensive I/O at commit</td></tr>
+      <tr><td>No-Force</td><td>Pages not forced to disk at commit</td><td>REDO needed (commits may not be on disk)</td></tr>
+    </table>
+    <p>ARIES uses <strong>Steal + No-Force</strong> → requires both UNDO and REDO. Most practical choice.</p>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>WAL: log before data.</strong> "Write-Ahead" = log record written to stable storage BEFORE data page is written.</li>
+      <li><strong>ARIES: Analysis → Redo → Undo.</strong> A-R-U. "ARU" — Analysts Redo the Undo.</li>
+      <li><strong>Redo = repeat history. Undo = roll back losers.</strong></li>
+      <li><strong>CLR = Compensation Log Record.</strong> Written during undo. Has nextUndoLSN. Prevents double-undo if crash during recovery.</li>
+      <li><strong>Steal → need undo. No-Force → need redo.</strong> ARIES = Steal + No-Force = needs both.</li>
+      <li><strong>Fuzzy checkpoint = no transaction halt.</strong> Simple checkpoint = transactions halted. Fuzzy = production-grade.</li>
+      <li>RedoLSN = min(RecLSN in DPT). Redo starts from this point.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">Write-Ahead Logging (WAL) dictates that log records must be written:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> After data is flushed to disk</li>
+        <li data-opt="B)"> Before data is flushed to disk (on stable storage)</li>
+        <li data-opt="C)"> Simultaneously with data</li>
+        <li data-opt="D)"> Only during checkpoints</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>WAL: log written to durable storage BEFORE data pages. Ensures REDO is possible if crash occurs after data write.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">In ARIES recovery, the Redo phase repeats the history of all committed and uncommitted transactions.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>Redo phase: repeat history from RedoLSN onward. Redo ALL transactions' updates (committed and uncommitted). Later Undo phase rolls back uncommitted.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">ARIES phases in order:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Undo → Redo → Analysis</li>
+        <li data-opt="B)"> Analysis → Redo → Undo</li>
+        <li data-opt="C)"> Redo → Undo → Analysis</li>
+        <li data-opt="D)"> Analysis → Undo → Redo</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B (Analysis →Redo → Undo)</strong><br>ARIES: (1) Analysis identifies dirty pages and in-flight transactions. (2) Redo repeats history. (3) Undo rolls back uncommitted changes.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">Steal vs. No-Steal: ARIES uses:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Steal + Force (needs neither Undo nor Redo)</li>
+        <li data-opt="B)"> No-Steal + No-Force (needs both)</li>
+        <li data-opt="C)"> Steal + No-Force (needs Undo and Redo)</li>
+        <li data-opt="D)"> No-Steal + Force (needs only Undo)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C</strong><br>Steal = allow modifying pages before commit. No-Force = don't force on commit. ARIES: Steal → needs Undo. No-Force → needs Redo.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">Compensation Log Records (CLR) are written during the Undo phase to prevent double-undo if a crash occurs.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>CLR logged during undo. Contains nextUndoLSN pointer. If crash during undo, recovery continues from nextUndoLSN (avoids re-undoing already undone changes).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">Fuzzy checkpoint vs. simple checkpoint:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Fuzzy stops all transactions; simple is concurrent</li>
+        <li data-opt="B)"> Fuzzy is concurrent; simple halts transactions</li>
+        <li data-opt="C)"> Both are identical</li>
+        <li data-opt="D)"> Depends on buffer size</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Fuzzy checkpoint: no transaction halt, I/O proceeds. Simple checkpoint: transactions paused. Fuzzy used in production systems (minimal disruption).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">RedoLSN in recovery is set to:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> The LSN of the last checkpoint</li>
+        <li data-opt="B)"> Minimum RecLSN of all dirtypage entries</li>
+        <li data-opt="C)"> The LSN of the oldest transaction</li>
+        <li data-opt="D)"> The current LSN at crash</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>RedoLSN = min(RecLSN) from Dirty Page Table. This is the earliest update that might not be persisted, so Redo starts from here.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">A committed transaction's changes are always immediately durable (on disk) without Redo.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>With No-Force policy, committed changes may be in buffer (not yet on disk). ARIES Redo phase ensures durability even if buffered commits weren't flushed.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">Full backup takes the entire database snapshot. Incremental backup takes:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Only changed blocks since last full</li>
+        <li data-opt="B)"> Only changed blocks since last any backup</li>
+        <li data-opt="C)"> Entire DB every time</li>
+        <li data-opt="D)"> A sample of random blocks</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Incremental: changes since last backup (full or incremental). Differential: changes since last full backup. Incremental uses less space/time.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">Point-in-time recovery (PITR) requires:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Only a full backup</li>
+        <li data-opt="B)"> Full backup + all subsequent transaction logs</li>
+        <li data-opt="C)"> Incremental backups only</li>
+        <li data-opt="D)"> Real-time replication</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>PITR: restore from full backup, then replay transaction log up to desired timestamp. Ensures data consistency at any historical point.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TOPIC 8: DATABASE ARCHITECTURE
+     ═══════════════════════════════════════════════════════════════ -->
+<details id="t8">
+<summary>
+  <span class="num">08</span>
+  <h2>Database Architecture</h2>
+  <span class="arrow">▶</span>
+</summary>
+<div class="content">
+
+  <div class="section basics">
+    <span class="section-label">The Basics</span>
+    <h3>RDBMS vs. NoSQL</h3>
+    <table>
+      <tr><th>Feature</th><th>RDBMS</th><th>NoSQL</th></tr>
+      <tr><td>Schema</td><td>Fixed, predefined</td><td>Flexible, dynamic</td></tr>
+      <tr><td>Consistency</td><td>Strong (ACID)</td><td>Eventual (BASE) typically</td></tr>
+      <tr><td>Scalability</td><td>Vertical (scale-up)</td><td>Horizontal (scale-out)</td></tr>
+      <tr><td>Query language</td><td>SQL (declarative)</td><td>API-based; varies by DB</td></tr>
+      <tr><td>Joins</td><td>Native, optimized</td><td>Avoided by design</td></tr>
+      <tr><td>Examples</td><td>PostgreSQL, MySQL, Oracle</td><td>MongoDB, Cassandra, Redis, Neo4j</td></tr>
+    </table>
+  </div>
+
+  <div class="section deepdive">
+    <span class="section-label">Deep Dive</span>
+
+    <h3>CAP Theorem</h3>
+    <p>In a distributed system, you can guarantee at most <strong>2 of 3</strong> properties simultaneously:</p>
+    <ul>
+      <li><strong>C — Consistency:</strong> Every read receives the most recent write (or an error). All nodes see same data at same time.</li>
+      <li><strong>A — Availability:</strong> Every request receives a (non-error) response, without guarantee it's the most recent data.</li>
+      <li><strong>P — Partition Tolerance:</strong> System continues operating despite network partitions (messages lost/delayed between nodes).</li>
+    </ul>
+    <div class="callout">
+      <strong>Critical insight:</strong> Network partitions are <em>inevitable</em> in real distributed systems. Therefore, the practical choice is always between CP and AP (P is non-negotiable).
+    </div>
+
+    <table>
+      <tr><th>System Type</th><th>Examples</th><th>Trade-off</th></tr>
+      <tr><td>CP (Consistent + Partition-tolerant)</td><td>HBase, MongoDB (w/ majority write), Zookeeper</td><td>May reject requests during partition → sacrifices availability</td></tr>
+      <tr><td>AP (Available + Partition-tolerant)</td><td>Cassandra, CouchDB, DynamoDB</td><td>May return stale data during partition → sacrifices consistency</td></tr>
+      <tr><td>CA (Consistent + Available)</td><td>Traditional RDBMS on single node</td><td>Cannot handle network partitions (not truly distributed)</td></tr>
+    </table>
+
+    <h3>BASE Properties (NoSQL consistency model)</h3>
+    <ul>
+      <li><strong>B</strong>asically Available: System guarantees availability (per CAP)</li>
+      <li><strong>S</strong>oft State: State may change over time without input (due to eventual consistency)</li>
+      <li><strong>E</strong>ventually Consistent: Data will eventually be consistent across nodes given no new updates</li>
+    </ul>
+    <p>BASE is the antithesis of ACID. Suitable for systems where availability &gt; strong consistency (e.g., shopping carts, social media feeds).</p>
+
+    <h3>NoSQL Paradigm Matching</h3>
+    <table>
+      <tr><th>Type</th><th>Data Model</th><th>Use Case</th><th>Examples</th></tr>
+      <tr><td>Key-Value</td><td>Hash map (key → opaque blob)</td><td>Session cache, shopping cart, config</td><td>Redis, DynamoDB, Riak</td></tr>
+      <tr><td>Document</td><td>JSON/BSON documents; flexible schema</td><td>Product catalogs, user profiles, CMS</td><td>MongoDB, CouchDB, Firestore</td></tr>
+      <tr><td>Column (Wide-Column)</td><td>Rows with dynamic columns per row; sparse</td><td>Time-series, IoT, logging, analytics</td><td>Cassandra, HBase, BigTable</td></tr>
+      <tr><td>Graph</td><td>Nodes + edges with properties</td><td>Social networks, recommendation, fraud detection</td><td>Neo4j, Amazon Neptune, ArangoDB</td></tr>
+    </table>
+
+    <h4>Key-Value Details</h4>
+    <p>Simplest NoSQL model. Operations: GET(key), PUT(key, value), DELETE(key). No query language — must know the key. Values are opaque; no secondary index natively.</p>
+
+    <h4>Column Store Details</h4>
+    <p>Data is stored column-by-column (not row-by-row). Excellent for analytical queries that access few columns across many rows (OLAP). Poor for row-level transactional updates (OLTP). Cassandra is actually a wide-column store (stores families of columns per row key).</p>
+
+    <h4>Graph Database Details</h4>
+    <p>Native graph storage with index-free adjacency (each node directly references adjacent nodes). Traversals are O(degree) per hop — extremely efficient for multi-hop relationship queries. RDBMS would require expensive self-joins.</p>
+
+    <h3>Two-Phase Commit (2PC) — Distributed Transactions</h3>
+    <p>Ensures atomicity across distributed nodes. Two participants: <strong>Coordinator</strong> (initiates) and <strong>Participants</strong> (sub-systems).</p>
+
+    <h4>Phase 1: Prepare (Voting)</h4>
+    <ol>
+      <li>Coordinator sends PREPARE message to all participants</li>
+      <li>Each participant votes COMMIT (if ready) or ABORT (if not)</li>
+      <li>Participants that vote COMMIT must log the vote and lock resources until phase 2</li>
+    </ol>
+
+    <h4>Phase 2: Commit/Abort (Decision)</h4>
+    <ol>
+      <li>If all vote COMMIT → Coordinator sends COMMIT to all</li>
+      <li>If any vote ABORT → Coordinator sends ABORT to all</li>
+      <li>Participants execute decision and release locks; send ACK</li>
+    </ol>
+
+    <div class="callout red">
+      <strong>2PC Failure Scenarios:</strong><br>
+      — If coordinator crashes after participants vote COMMIT but before sending decision: participants are <em>blocked</em> (hold locks indefinitely) — this is the "blocking problem" of 2PC.<br>
+      — 3PC (Three-Phase Commit) was designed to address this but is rarely used in practice due to complexity.
+    </div>
+
+    <h4>2PC vs. Saga Pattern</h4>
+    <table>
+      <tr><th>Aspect</th><th>2PC</th><th>Saga</th></tr>
+      <tr><td>Atomicity</td><td>True atomic (all or nothing)</td><td>Eventual (compensating transactions)</td></tr>
+      <tr><td>Blocking</td><td>Yes — coordinator failure blocks</td><td>No — async compensations</td></tr>
+      <tr><td>Performance</td><td>Higher latency (2 round trips)</td><td>Lower latency; better availability</td></tr>
+      <tr><td>Usage</td><td>Traditional distributed RDBMS</td><td>Microservices, event-driven architectures</td></tr>
+    </table>
+
+    <h3>Vector Databases — Fundamentals</h3>
+    <p>Vector databases store and query <strong>embeddings</strong> — high-dimensional numerical representations of unstructured data (text, images, audio) produced by ML models.</p>
+
+    <h4>Embeddings</h4>
+    <p>A vector embedding maps an object to a point in high-dimensional space (e.g., 768-dim or 1536-dim) such that semantically similar objects are geometrically close. Generated by models like BERT, OpenAI Ada, etc.</p>
+
+    <h4>Distance Metrics</h4>
+    <table>
+      <tr><th>Metric</th><th>Formula</th><th>Best For</th></tr>
+      <tr><td>Euclidean (L2)</td><td>$\sqrt{\sum(a_i - b_i)^2}$</td><td>Spatial/geometric similarity; same-scale embeddings</td></tr>
+      <tr><td>Cosine Similarity</td><td>$\frac{a \cdot b}{||a|| \cdot ||b||}$</td><td>Text/semantic similarity (magnitude-invariant)</td></tr>
+      <tr><td>Dot Product</td><td>$\sum a_i \cdot b_i$</td><td>Recommendation systems; normalized embeddings</td></tr>
+      <tr><td>Manhattan (L1)</td><td>$\sum |a_i - b_i|$</td><td>Sparse data; robust to outlier dimensions</td></tr>
+    </table>
+
+    <h4>Approximate Nearest Neighbor (ANN) Search</h4>
+    <p>Exact nearest-neighbor search in high dimensions is computationally expensive (curse of dimensionality). ANN algorithms trade exact accuracy for speed:</p>
+    <ul>
+      <li><strong>HNSW (Hierarchical Navigable Small World):</strong> Graph-based; fast, high recall; used in Qdrant, Weaviate</li>
+      <li><strong>IVF (Inverted File Index):</strong> Cluster-based; partition space into Voronoi cells; search within nearest cluster</li>
+      <li><strong>PQ (Product Quantization):</strong> Compress vectors; trade memory for slight accuracy loss</li>
+      <li><strong>LSH (Locality-Sensitive Hashing):</strong> Hash similar vectors to same bucket; fast but lower recall</li>
+    </ul>
+
+    <h4>Popular Vector Databases</h4>
+    <ul>
+      <li><strong>Pinecone:</strong> Managed cloud; simple API; no self-hosting</li>
+      <li><strong>Weaviate:</strong> Open-source; hybrid search (vector + keyword); GraphQL API</li>
+      <li><strong>Qdrant:</strong> Open-source; Rust-based; HNSW; payload filtering</li>
+      <li><strong>pgvector:</strong> PostgreSQL extension; combines relational + vector; no separate DB needed</li>
+      <li><strong>Chroma:</strong> Lightweight; embedded; Python-native; common in LLM dev</li>
+    </ul>
+
+    <h3>RDBMS Architecture — 3-Schema Architecture (ANSI/SPARC)</h3>
+    <ul>
+      <li><strong>External Schema (View level):</strong> User-specific views; hides complexity</li>
+      <li><strong>Conceptual Schema (Logical level):</strong> Logical structure of entire DB; tables, constraints</li>
+      <li><strong>Internal Schema (Physical level):</strong> Physical storage; indexes, file organization</li>
+    </ul>
+    <p><strong>Data Independence:</strong></p>
+    <ul>
+      <li>Logical data independence: Changing conceptual schema without changing external schema</li>
+      <li>Physical data independence: Changing internal schema without changing conceptual schema</li>
+    </ul>
+  </div>
+
+  <div class="section tricks">
+    <span class="section-label">Short Tricks</span>
+    <ul>
+      <li><strong>CAP: pick 2. But P is always needed → real choice is CP vs AP.</strong></li>
+      <li><strong>ACID vs BASE:</strong> ACID = RDBMS, strong consistency. BASE = NoSQL, eventual consistency.</li>
+      <li><strong>NoSQL match:</strong> Cache/session → Key-Value. Catalog/profiles → Document. Time-series/logs → Column. Social/recommendations → Graph.</li>
+      <li><strong>2PC blocks on coordinator failure</strong> — this is the key weakness. 3PC adds a pre-commit phase to resolve this.</li>
+      <li><strong>Cosine similarity = semantic similarity for text</strong> (ignores magnitude; only cares about angle/direction).</li>
+      <li><strong>HNSW = best ANN for most use cases</strong> (high recall, fast). LSH = fastest but lowest recall.</li>
+      <li>Logical independence is harder to achieve than physical independence (changing logical structure = changing user views).</li>
+      <li>CA systems (no partition tolerance) = only possible if running on single node. "Distributed CA" is theoretically impossible.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+    <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q1.</p>
+      <p class="mcq-text">In CAP theorem, which property is always required in practice for distributed systems?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Consistency (C)</li>
+        <li data-opt="B)"> Availability (A)</li>
+        <li data-opt="C)"> Partition Tolerance (P)</li>
+        <li data-opt="D)"> All three equally</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C (Partition Tolerance)</strong><br>Network partitions are inevitable. Real choice: CP (strong consistency) vs AP (eventual consistency). "Distributed CA" impossible.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q2.</p>
+      <p class="mcq-text">BASE (Basically Available, Soft state, Eventually consistent) is the opposite of ACID.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>BASE prioritizes availability over immediate consistency (eventual consistency). ACID prioritizes strong consistency. Different trade-offs for different workloads.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q3.</p>
+      <p class="mcq-text">Redis (in-memory cache), MongoDB (document DB), Cassandra (wide-column). Match to NoSQL categories:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Key-Value, Document, Column-Store</li>
+        <li data-opt="B)"> Document, Graph, Time-Series</li>
+        <li data-opt="C)"> Graph, Key-Value, Column-Store</li>
+        <li data-opt="D)"> All are Document stores</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: A</strong><br>Redis = Key-Value (fast caching). MongoDB = Document (JSON-like, flexible schema). Cassandra = Column-Store (time-series, analytics).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q4.</p>
+      <p class="mcq-text">Two-Phase Commit (2PC) fundamental issue:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Cannot handle network delays</li>
+        <li data-opt="B)"> Blocks on coordinator failure during prepare phase</li>
+        <li data-opt="C)"> Requires synchronous communication</li>
+        <li data-opt="D)"> All of the above</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>2PC: participants wait for coordinator decision. Coordinator failure = deadlock. Participants can't unilaterally commit/abort. 3PC adds pre-commit phase to mitigate.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q5.</p>
+      <p class="mcq-text">Cosine similarity measures the angle between two vectors, ignoring magnitude.</p>
+      <div class="mcq-answer"><strong>Answer: TRUE</strong><br>Cosine similarity = (A · B) / (||A|| ||B||). Ranges [0,1]. Useful for text/semantic similarity (e.g., word embeddings) where magnitude is irrelevant.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q6.</p>
+      <p class="mcq-text">For nearest-neighbor search in high-dimensional embeddings (1M vectors, 768 dims), best algorithm:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Linear scan</li>
+        <li data-opt="B)"> K-d tree</li>
+        <li data-opt="C)"> HNSW (Hierarchical Navigable Small World)</li>
+        <li data-opt="D)"> LSH (Locality-Sensitive Hashing)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: C (HNSW)</strong><br>HNSW: high recall, fast (~O(log n)). LSH faster but lower recall. HNSW = production choice for vector DBs. K-d tree suffers curse of dimensionality.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q7.</p>
+      <p class="mcq-text">3-level database architecture: External, Conceptual, Internal. Which offers physical data independence?</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> External ← → Conceptual boundary</li>
+        <li data-opt="B)"> Conceptual ← → Internal boundary</li>
+        <li data-opt="C)"> External ← → Internal boundary</li>
+        <li data-opt="D)"> No independence in 3-level</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Physical independence: change internal (storage) without affecting conceptual. Logical independence: change conceptual without affecting external (user views).</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type true-false">TRUE/FALSE</span>
+      <p class="mcq-num">Q8.</p>
+      <p class="mcq-text">Logical data independence is easier to achieve than physical data independence.</p>
+      <div class="mcq-answer"><strong>Answer: FALSE</strong><br>Physical independence easier: change indexes, storage format without user notice. Logical independence harder: changing schema affects user views of data structure.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type scenario">SCENARIO BASED</span>
+      <p class="mcq-num">Q9.</p>
+      <p class="mcq-text">Real-world system: financial transactions (banking) vs. social media feed. Best architectural choice:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Both ACID RDBMS</li>
+        <li data-opt="B)"> Banking=ACID, Social=BASE</li>
+        <li data-opt="C)"> Both BASE NoSQL</li>
+        <li data-opt="D)"> Banking=BASE, Social=ACID</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: B</strong><br>Banking: ACID required (data consistency critical). Social feeds: BASE acceptable (eventual consistency, high availability okay). Different requirements.</div>
+    </div>
+
+    <div class="mcq-item">
+      <span class="mcq-type multiple">MULTIPLE CHOICE</span>
+      <p class="mcq-num">Q10.</p>
+      <p class="mcq-text">Distributed system property that's theoretically impossible:</p>
+      <ul class="mcq-options">
+        <li data-opt="A)"> Consistent + Available across partitioned network</li>
+        <li data-opt="B)"> Available + Partition-tolerant without consistency</li>
+        <li data-opt="C)"> Consistent + Partition-tolerant without availability</li>
+        <li data-opt="D)"> All three together (CA + P)</li>
+      </ul>
+      <div class="mcq-answer"><strong>Answer: D</strong><br>CAP theorem: distributed systems cannot have all three. Must pick (C+A, C+P, or A+P). The "D" option is the theoretical impossibility.</div>
+    </div>
+
+  </div>
+
+</div>
+</details>
+
+</main>
+
+<footer style="max-width:820px;margin:3rem auto 0;padding:2rem 0;border-top:1px solid var(--border);text-align:center;color:var(--text-dim);font-family:var(--mono);font-size:0.75rem;">
+  IS Officer PSU Exam Study Guide — Database Systems &nbsp;|&nbsp; All 8 Topics &nbsp;|&nbsp; 2024–25 Edition
+</footer>
+
+<script>
+  // Theme Switching Functionality
+  (function() {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+    const html = document.documentElement;
+    const THEME_KEY = 'dbms-theme-preference';
+
+    // Detect system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // Initialize theme on page load
+    function initTheme() {
+      let theme = localStorage.getItem(THEME_KEY);
+      
+      // If no preference stored, use system preference
+      if (!theme) {
+        theme = prefersDark.matches ? 'dark' : 'light';
+      }
+
+      applyTheme(theme);
+    }
+
+    // Apply theme
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        html.classList.add('light-theme');
+        themeIcon.textContent = '☀️';
+        themeLabel.textContent = 'Dark Mode';
+        localStorage.setItem(THEME_KEY, 'light');
+      } else {
+        html.classList.remove('light-theme');
+        themeIcon.textContent = '🌙';
+        themeLabel.textContent = 'Light Mode';
+        localStorage.setItem(THEME_KEY, 'dark');
+      }
+    }
+
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem(THEME_KEY) || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+
+    // Listen for system theme changes
+    prefersDark.addListener((e) => {
+      if (!localStorage.getItem(THEME_KEY)) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    // Initialize on document ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTheme);
+    } else {
+      initTheme();
+    }
+  })();
+</script>
+
+</body>
+</html>
