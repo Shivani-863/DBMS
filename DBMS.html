@@ -16,6 +16,27 @@
     /* Dark Theme (default) */
     --bg: #0e0e10;
     --surface: #16161a;
+    --surface-strong: #1a1a1f;
+    --surface-muted: #15151a;
+    --surface-alt: #13131a;
+    --surface-panel: #18161e;
+    --code-bg: #1e1e24;
+    --code-text: #e2c08d;
+    --table-heading-bg: #1e1e26;
+    --table-alt-bg: #121216;
+    --callout-bg: #1e1a10;
+    --callout-blue-bg: #101a2e;
+    --callout-red-bg: #1e1010;
+    --callout-green-bg: #101e14;
+    --mcq-bg: #13131a;
+    --mcq-answer-bg: #0e1a14;
+    --tag-bg-r: #2d1010;
+    --tag-bg-g: #102d18;
+    --tag-bg-b: #10182d;
+    --tag-bg-y: #2d2410;
+    --label-basics-bg: #16362a;
+    --label-deepdive-bg: #1a1a36;
+    --label-tricks-bg: #2a1a16;
     --border: #2a2a30;
     --accent: #e8b84b;
     --accent2: #5b8dee;
@@ -34,15 +55,36 @@
     /* Light Theme */
     --bg: #fafafa;
     --surface: #f5f5f5;
-    --border: #e5e5e5;
-    --accent: #d97706;
+    --surface-strong: #ffffff;
+    --surface-muted: #f6f6f8;
+    --surface-alt: #eef2ff;
+    --surface-panel: #f8fafc;
+    --code-bg: #f3f4f6;
+    --code-text: #92400e;
+    --table-heading-bg: #e2e8f0;
+    --table-alt-bg: #f8fafc;
+    --callout-bg: #fefce8;
+    --callout-blue-bg: #e0efff;
+    --callout-red-bg: #fee2e2;
+    --callout-green-bg: #dcfce7;
+    --mcq-bg: #f8fafc;
+    --mcq-answer-bg: #eef2ff;
+    --tag-bg-r: #fee2e2;
+    --tag-bg-g: #dcfce7;
+    --tag-bg-b: #e0f2fe;
+    --tag-bg-y: #fef3c7;
+    --label-basics-bg: #d1fae5;
+    --label-deepdive-bg: #e0e7ff;
+    --label-tricks-bg: #fde68a;
+    --border: #d1d5db;
+    --accent: #b45309;
     --accent2: #2563eb;
     --text: #1f2937;
     --text-dim: #6b7280;
     --text-bright: #000000;
-    --red: #dc2626;
-    --green: #16a34a;
-    --purple: #9333ea;
+    --red: #b91c1c;
+    --green: #15803d;
+    --purple: #7c3aed;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -173,6 +215,14 @@
     margin-top: 1.5rem;
   }
 
+  .panel {
+    background: var(--surface-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
   .section-label {
     font-family: var(--mono);
     font-size: 0.68rem;
@@ -184,9 +234,9 @@
     margin-bottom: 0.6rem;
   }
 
-  .basics .section-label { background: #16362a; color: var(--green); }
-  .deepdive .section-label { background: #1a1a36; color: var(--accent2); }
-  .tricks .section-label { background: #2a1a16; color: var(--accent); }
+  .basics .section-label { background: var(--label-basics-bg); color: var(--green); }
+  .deepdive .section-label { background: var(--label-deepdive-bg); color: var(--accent2); }
+  .tricks .section-label { background: var(--label-tricks-bg); color: var(--accent); }
 
   h3 {
     font-size: 1rem;
@@ -212,15 +262,15 @@
 
   code {
     font-family: var(--mono);
-    background: #1e1e24;
-    color: #e2c08d;
+    background: var(--code-bg);
+    color: var(--code-text);
     padding: 1px 5px;
     border-radius: 3px;
     font-size: 0.875em;
   }
 
   pre {
-    background: #13131a;
+    background: var(--surface-alt);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1rem 1.25rem;
@@ -229,7 +279,7 @@
     font-family: var(--mono);
     font-size: 0.82rem;
     line-height: 1.6;
-    color: #c9d1d9;
+    color: var(--text);
   }
 
   pre .kw { color: #79c0ff; }
@@ -247,7 +297,7 @@
   }
 
   th {
-    background: #1e1e26;
+    background: var(--table-heading-bg);
     color: var(--accent);
     text-align: left;
     padding: 0.5rem 0.75rem;
@@ -264,11 +314,11 @@
     vertical-align: top;
   }
 
-  tr:nth-child(even) td { background: #121216; }
+  tr:nth-child(even) td { background: var(--table-alt-bg); }
 
   .callout {
     border-left: 3px solid var(--accent);
-    background: #1e1a10;
+    background: var(--callout-bg);
     padding: 0.75rem 1rem;
     margin: 0.75rem 0;
     border-radius: 0 var(--radius) var(--radius) 0;
@@ -277,21 +327,21 @@
 
   .callout.blue {
     border-color: var(--accent2);
-    background: #101a2e;
+    background: var(--callout-blue-bg);
   }
 
   .callout.red {
     border-color: var(--red);
-    background: #1e1010;
+    background: var(--callout-red-bg);
   }
 
   .callout.green {
     border-color: var(--green);
-    background: #101e14;
+    background: var(--callout-green-bg);
   }
 
   .formula-block {
-    background: #13131a;
+    background: var(--surface-alt);
     border: 1px solid var(--accent2);
     border-radius: var(--radius);
     padding: 0.75rem 1.25rem;
@@ -312,10 +362,10 @@
     margin: 1px;
   }
 
-  .tag-r { background: #2d1010; color: var(--red); }
-  .tag-g { background: #102d18; color: var(--green); }
-  .tag-b { background: #10182d; color: var(--accent2); }
-  .tag-y { background: #2d2410; color: var(--accent); }
+  .tag-r { background: var(--tag-bg-r); color: var(--red); }
+  .tag-g { background: var(--tag-bg-g); color: var(--green); }
+  .tag-b { background: var(--tag-bg-b); color: var(--accent2); }
+  .tag-y { background: var(--tag-bg-y); color: var(--accent); }
 
   /* MCQ Styling */
   .mcq-section {
@@ -332,7 +382,7 @@
   }
 
   .mcq-item {
-    background: #13131a;
+    background: var(--mcq-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 1rem;
@@ -360,9 +410,9 @@
     letter-spacing: 0.08em;
   }
 
-  .mcq-type.multiple { background: #1a2436; color: var(--accent2); }
-  .mcq-type.true-false { background: #2d1a16; color: var(--accent); }
-  .mcq-type.scenario { background: #1a2d1a; color: var(--green); }
+  .mcq-type.multiple { background: var(--surface-alt); color: var(--accent2); }
+  .mcq-type.true-false { background: var(--surface-muted); color: var(--accent); }
+  .mcq-type.scenario { background: var(--surface-alt); color: var(--green); }
 
   .mcq-options {
     margin: 0.75rem 0 0 1.5rem;
@@ -386,7 +436,7 @@
   .mcq-answer {
     margin-top: 0.6rem;
     padding: 0.5rem 0.75rem;
-    background: #0e1a14;
+    background: var(--mcq-answer-bg);
     border-left: 2px solid var(--green);
     border-radius: 0 3px 3px 0;
     font-size: 0.85rem;
@@ -609,7 +659,7 @@ Payment(<u>Loan_No, Payment_No</u>, Date)   -- weak; Loan_No FK references Loan<
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -830,7 +880,7 @@ Result = Enrolled ÷ Courses</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -1092,7 +1142,7 @@ until no change</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -1331,7 +1381,7 @@ until no change</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -1570,7 +1620,7 @@ until no change</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -1830,7 +1880,7 @@ until no change</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -2082,7 +2132,7 @@ until no change</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
@@ -2366,7 +2416,7 @@ until no change</pre>
     </ul>
   </div>
 
-  <div class="section" style="background: #18161e; border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem;">
+  <div class="section panel">
     <h3 style="color: var(--accent); margin-bottom: 1rem;">Exam-Style MCQs</h3>
 
     <div class="mcq-item">
